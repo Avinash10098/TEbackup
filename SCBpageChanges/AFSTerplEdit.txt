@@ -1,0 +1,281 @@
+<apex:page controller="AFSTerplController" docType="html-5.0" showHeader="true" standardStylesheets="false" sidebar="false" applyHtmlTag="true" applyBodyTag="false">
+   <head>
+    	<style type="text/css">
+            body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            font-size:10pt;
+            color:#4b4b4b;
+            background-color: #f8f8f8; /* Light gray background for contrast */
+            }
+            .maintable {
+            
+            border-collapse: collapse;
+            margin:0;
+            
+            }
+            .page-container {
+            width: 70%; /* Reduced width for more side space */
+            margin: 20px auto; /* Center the container */
+            padding: 20px;
+            border: 5px solid #000; /* Black border */
+            border-radius: 15px; /* Optional: Rounded corners */
+            box-sizing: border-box; /* Include padding in width/height calculations */
+            background-color: #fff; /* White background for the content */
+            }
+            .content {
+            padding: 20px;
+            }
+            .btn-custom {
+            background-color: #ED7D31 !important; /* Set orange background */
+            color: white !important; /* Set white text */
+            border: none !important; /* Remove default border */
+            padding: 12px 25px; /* Increase padding for a larger button */
+            font-size: 12px; /* Increase font size */
+            font-weight: bold; /* Bold text */
+            border-radius: 8px; /* Optional: Rounded corners */
+            cursor: pointer; /* Pointer cursor */
+            box-shadow: none !important; /* Remove Salesforce's default shadow */
+            text-shadow: none !important; /* Remove default text shadow */
+            background-image: none !important; /* Remove gradient background */
+            height: auto; /* Automatically adjust height based on padding */
+            }
+            .btn-custom:hover {
+            background-color: #cf681f !important; /* Darker orange on hover */
+            transition: background-color 0.3s ease; /* Smooth hover effect */
+            }
+            .pNumber{
+                font-size:10pt;
+                text-align:justify;
+                font-family:SansSerif;
+                width:100%;
+                margin:0px;
+            }
+            .pContent{
+                font-size:10pt;
+                text-align:justify;
+                font-family:SansSerif;
+                width:100%;
+                margin-top:0px;
+            }
+        </style>
+    </head>
+    <apex:form >
+        <body>
+            <div class="page-container">
+             <div class="content">
+                 <apex:pageMessages />
+                 <apex:outputPanel rendered="{!NOT(ISBLANK(errormsg))}">
+                    <div style="color:red;font-weight:bold;">
+                        {!errormsg}
+                    </div>
+                </apex:outputPanel>
+                    <apex:outputPanel rendered="{!AND(isError1 == 0)}">
+                        <table style='height:99%;width:99% ;margin-left: auto;margin-right: auto;' cellpadding='7'>
+                        <tr>
+                            <td style='vertical-align:middle;padding-left:0px'>
+                                <div style='background: #7f7f7f;line-height:50px;color: #FFFFFF;text-align:center;font-size:25px;border:1px solid #7f7f7f;margin-top: 10px;font-family:SansSerif;' ><b>AGREEMENT FOR SALE</b></div>
+                    			<div style='background: {!prj.Color_Code__c};line-height:50px;color: #FFFFFF;text-align:center;font-size:22px;border:1px solid #7f7f7f;margin-top: 10px;font-family:SansSerif;'>{!unt.Name} | <b>{!prj.Name} {!phase.name}</b></div>
+                            </td>
+                        </tr>
+               		</table>
+					<div style="margin:10px"></div>
+                    <p class="pNumber">THIS Agreement for Sale (“AfS”) is made and executed on this the &nbsp;<apex:input type="date" value="{!selDate}"/> at Bangalore, Karnataka.</p>
+                    <div style="margin:10px"></div>
+                    <p class="pNumber"> By and between</p>
+                    <br/>
+                    <p class="pNumber"> <b>{!promo.Name}</b>, [CIN No. {!promo.CIN_NO__c}], a company incorporated under the provisions of the Companies Act, 1956 and existing under the Companies Act 2013, having their registered office at {!promo.Registered_office__c}, hereinafter referred to as the <b>“First Party”</b> (which expression shall unless repugnant to the context and/or meaning thereof be deemed to mean and include the company, its subsidiaries, affiliates, companies/entities under the same management, legal/authorized representatives, successors, executors and assigns) of the One Part.</p>
+                    <br/>
+                    <p class="pNumber"> And</p>
+                    <ol>
+                        <apex:repeat value="{!appWrapList}" var="appWrap">
+                            <li style="font-size:10pt;font-family:SansSerif;text-align:justify;">
+                                {!appWrap.app.Salutation__c} {!appWrap.app.Name} 
+                                [PAN no. {!appWrap.app.PancardNo__c}], 
+                                aged about {!appWrap.app.Age__c} years,
+                                 &nbsp;<apex:selectList value="{!appWrap.relationType}"  size="1" style="font-size:10pt;font-family:SansSerif;">
+                                    <apex:selectOptions value="{!relationOptions}" />
+                                </apex:selectList>
+                                 {!appWrap.app.Father_Husband_s_Name__c}.
+                            </li>
+                        </apex:repeat>
+                    </ol>
+                     <p class="pNumber"> hereinafter collectively referred to as the “Second Party”, (which term shall, unless repugnant to or inconsistent with the context, mean and include its legal heirs, assigns and successors-in-interest) of the Other Part.</p>
+                     <div style="margin:10px"></div>
+                     <p class="pNumber">WHEREAS:</p>
+                     <div style="margin:10px"></div>
+						<p class="pNumber">0.01</p>
+                        <p class="pContent">The First Party is agreement holder of the Unit No. &nbsp;<apex:input type="text" value="{!unitNo}"/> in the {!prj.Name}, more particularly described in the Schedule Property herein (hereinafter referred to as the “Schedule Property”) being developed by Total Environment Habitat Private Limited (hereinafter referred to as the “Promoters”).</p>
+                        <p class="pNumber">0.02</p>
+                        <p class="pContent">The First Party purchased the Schedule Property from the Promoters vide Agreement for Sale dated  &nbsp;<apex:input type="date" value="{!afsDate}"/> (hereinafter referred to as the “Original AfS”) </p>
+                        <p class="pNumber"> 0.03</p>
+                     <p class="pContent"> Now, as per the mutual understanding and arrangement between the Parties, the First Party has agreed to transfer the Schedule Property in favour of the Second Party subject to receipt of all amounts as specified under this AfS, on the terms and conditions hereof. </p>
+                     <p class="pNumber"> 0.04</p>
+                     <p class="pContent"> The Sale Consideration for the transfer and conveyance of the Schedule Property shall be as per a specific payment plan as specified hereinafter.</p>
+                     <p class="pNumber"> 0.05</p>
+                     <p class="pContent"> The Parties are now executing this AfS to put in writing their arrangement and understanding for the said transfer of the Schedule Property by the First Party to the Second Party on the terms and conditions as contained herein.</p>
+                     <div style="margin:10px"></div>
+                     <p class="pNumber"> NOW THEREFORE, in consideration of the mutual promises and agreements herein made and intending to be legally bound thereby, the Parties hereto agree as follows:</p>
+                     <p class="pNumber"> Interpretation: In this AfS, unless the context otherwise requires: </p>
+                     <table style="width:100%; font-family:SansSerif; font-size:10pt; line-height:1.5; border-collapse:collapse;">
+                        <tr>
+                            <td style="width:2em; vertical-align:top;">i.</td>
+                            <td>The Recitals set out hereinabove shall be deemed to operate as agreed circumstances/terms and this AfS shall have legal effect accordingly.</td>
+                        </tr>
+                        <tr>
+                            <td style="width:2em; vertical-align:top;">ii.</td>
+                            <td>Reference to a person shall be deemed to mean and include reference to a corporation, firm, association or other entity and vice versa, as per the context.</td>
+                        </tr>
+                        <tr>
+                            <td style="width:2em; vertical-align:top;">iii.</td>
+                            <td>Words in singular shall include the plural and vice versa. Reference to a gender includes a reference to all other genders, as per the context.</td>
+                        </tr>
+                        <tr>
+                            <td style="width:2em; vertical-align:top;">iv.</td>
+                            <td>Reference to “including” and “include” shall be construed to mean “including without limitation” and “include without limitation” respectively, as per the context.</td>
+                        </tr>
+                        <tr>
+                            <td style="width:2em; vertical-align:top;">v.</td>
+                            <td>The headings used herein are inserted only as a matter of convenience and for ease of reference and shall not affect the construction or interpretation of this AfS.</td>
+                        </tr>
+                        <tr>
+                            <td style="width:2em; vertical-align:top;">vi.</td>
+                            <td>Reference to this AfS shall be deemed to mean and include, without limitation, reference to all its Annexures, Schedules and Addenda. Any reference to an article, recital, clause, annexure, schedule or addendum shall be deemed to be a reference to an Article, Recital, Clause, Annexure, Schedule or Addendum of this AfS.</td>
+                        </tr>
+                        <tr>
+                            <td style="width:2em; vertical-align:top;">vii.</td>
+                            <td>The definitions contained herein shall apply to the entire AfS including all its Annexures, Schedules and Addenda.</td>
+                        </tr>
+                        <tr>
+                            <td style="width:2em; vertical-align:top;">viii.</td>
+                            <td>Reference to an “agreement” or “document” shall be construed as a reference to such agreement or document, as the same may have been amended, varied, supplemented or novated in writing at the relevant time in accordance with the requirements of such agreement or document and, if applicable, of this AfS with respect to amendments.</td>
+                        </tr>
+                        <tr>
+                            <td style="width:2em; vertical-align:top;">ix.</td>
+                            <td>Reference to any legislation, enactment, statutory provision or to any provision of any legislation shall be a reference to it as it may have been, or may from time to time be, amended, modified, consolidated or re-enacted.</td>
+                        </tr>
+                        <tr>
+                            <td style="width:2em; vertical-align:top;">x.</td>
+                            <td>No provisions of this AfS shall be interpreted in favour of, or against, any Party by reason of the extent to which such Party or its counsel participated in the drafting hereof or by reason of the extent to which any such provision is inconsistent with any prior draft hereof.</td>
+                        </tr>
+                    </table>
+                     <div style="margin:10px"></div>
+                     <p class="pNumber"> NOW THIS AFS FOR SALE WITNESSETH AS FOLLOWS: </p>
+                     <div style="margin:10px"></div>
+                     <table style='width: 100%;border-collapse: collapse;' cellpadding='5'>
+                        <tr>
+                            <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>1</th>
+                            <td style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align:left;font-family:SansSerif;font-size:10pt;'>Consideration</td>
+                        </tr>
+                    </table>
+                     <div style="margin:10px"></div>
+                     <p class="pNumber"> 1.01 </p>
+                     <p class="pContent">The Second Party shall pay the entire Sale Consideration of Rs.{!agreementValueWithTax}/- ( {!agreementValueWithTaxInWords}) as per the Payment Schedule agreed among the Parties, more specifically described in Annexure-01 to this AfS. Of the said Sale Consideration amount, Rs.{!agreementValue}/- ({!agreementValueInWords}) is towards the sale consideration of the Unit and Rs.{!taxOnPurchasePrice}/-({!taxOnPurchasePriceInWords}) is towards taxes.</p>
+                     <p class="pNumber"> 1.02 </p>
+                     <p class="pContent">Payments made by the Second Party to the First Party in accordance with Annexure-01 shall, upon acknowledgment by the First Party, be deemed valid discharge of the Second Party’s payment obligations under the Original AfS.</p>
+                     <div style="margin:10px"></div>
+                     <table style='width: 100%;border-collapse: collapse;' cellpadding='5'>
+                        <tr>
+                            <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>2</th>
+                            <td style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align:left;font-family:SansSerif;font-size:10pt;'>Sale of Property</td>
+                        </tr>
+                    </table>
+                     <div style="margin:10px"></div>
+                     <p class="pNumber"> 2.01 </p>
+                     <p class="pContent"> In consideration of the First Party receiving the Sale Consideration from the Second Party as stated above and on execution of the Deed of Assignment [<b>“DoA”</b>], the First Party shall transfer, all right, title, interest and benefits arising under the Original Agreement for Sale, including the right to obtain conveyance from the Promoters in respect of the Schedule Property including any interests, easements, appurtenances, licenses and any other rights available to the First Party to the Second Party, to have and to hold the same absolutely, forever and free from all defects, encumbrances, easements, claims etc, of any nature whatsoever. </p>
+                     <p class="pNumber"> 2.02 </p>
+                     <p class="pContent"> The First Party shall hand over all copies of all documents and other relevant papers pertaining to the Schedule Property, to the Second Party simultaneous to the execution of this AfS.</p>
+                     <p class="pNumber"> 2.03 </p>
+                     <p class="pContent"> On the execution of this AfS and on payment of the amount due on execution of this AfS as per the Payment Schedule, the First Party shall approach the Promoters to execute a DoA to ensure assignment of the Original AfS of the Unit to the name of the Second Party and the Second Party understands and agrees that they shall be bound by the terms and conditions of the said original AfS post the execution of the said DoA. </p>
+                     <p class="pNumber"> 2.04 </p>
+                     <p class="pContent"> The Assignee understands and accepts that the execution and effectiveness of this AfS and the DoA shall be contingent upon the Assignee making payments in accordance with the Payment Schedule specified in Annexure 01. In the event of any default in payment by the Assignee, the First Party reserves the right to cancel both this Agreement and the subsequent Deed of Assignment. </p>
+                     <p class="pNumber"> 2.05 </p>
+                     <p class="pContent"> In the event of cancellation of this AfS due to default in payments, the First Party retains the right to forfeit the Earnest Money Deposit as per the terms stipulated in the original Agreement for Sale. The Parties acknowledge that such forfeiture is a genuine pre-estimate of the First party’s loss and is not a penalty. </p>
+                     <p class="pNumber"> 2.06 </p>
+                     <p class="pContent"> Upon execution of the DoA, the Second Party shall stand fully substituted in place of the First Party under the Original AfS, and the First Party shall have no rights, obligations, liabilities, or claims whatsoever thereafter. </p>
+                     <div style="margin:10px"></div>
+                     <table style='width: 100%;border-collapse: collapse;' cellpadding='5'>
+                        <tr>
+                            <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>3</th>
+                            <td style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align:left;font-family:SansSerif;font-size:10pt;'>Representations and Warranties of the First Party</td>
+                        </tr>
+                    </table>
+                     <div style="margin:10px"></div>
+                     <p class="pNumber"> 3.01 </p>
+                     <p class="pContent"> The First Party covenants that they are the agreement holders of the Schedule Property, and have good and marketable title subsisting and free from all defects, encumbrances, claims, charges, litigations, acquisitions, attachments, etc. of whatsoever nature. </p>
+                     <p class="pNumber"> 3.02 </p>
+                     <p class="pContent"> The First Party represents that there is no impediment in law for the sale of the Schedule Property in favour of the Second Party. </p>
+                     <p class="pNumber"> 3.03 </p>
+                     <p class="pContent"> The First Party represents that they have not entered into any agreement to sell the Schedule Property with any other person/s. </p>
+                     <p class="pNumber"> 3.04</p>
+                     <p class="pContent"> The First Party represents that no other person has any right or interest relating to possession of the Schedule Property. </p>
+                     <p class="pNumber"> 3.05</p>
+                     <p class="pContent"> The First Party confirms that all taxes, levies, cesses and other statutory duties in relation to the Schedule Property have been fully paid and discharged till the date of execution of this AfS. </p>
+                     <p class="pNumber"> 3.06</p>
+                     <p class="pContent"> The First Party has not withheld any information which will have a bearing on the conveyance. </p>
+                      <div style="margin:10px"></div>
+                     <table style='width: 100%;border-collapse: collapse;' cellpadding='5'>
+                        <tr>
+                            <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>4</th>
+                            <td style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align:left;font-family:SansSerif;font-size:10pt;'>Alienation of Schedule Property</td>
+                        </tr>
+                    </table>
+                     <div style="margin:10px"></div>
+                     <p class="pNumber"> The Second Party shall not be entitled to alienate the Schedule Property to any third person without the written approval of the First Party and as per the terms of the Original Agreement for Sale.  </p>
+                      <div style="margin:10px"></div>
+                     <table style='width: 100%;border-collapse: collapse;' cellpadding='5'>
+                        <tr>
+                            <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>5</th>
+                            <td style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align:left;font-family:SansSerif;font-size:10pt;'>Indemnity</td>
+                        </tr>
+                    </table>
+                     <div style="margin:10px"></div>
+                     <p class="pNumber"> 5.01 </p>
+                     <p class="pContent"> The First Party hereby assures the Second Party that they have not done or caused to be done any act whatsoever affecting adversely their title to the Schedule Property or any part thereof and hereby undertake to indemnify the Second Party from any loss or damage caused in this regard. </p>
+                     <p class="pNumber"> 5.02 </p>
+                     <p class="pContent"> The First Party hereby undertakes to indemnify the Second Party against any loss or damage that may be caused to the Second Party due to any defect in title, claims, and disputes or in the event of any of the representations made herein being incorrect/false/invalid. </p>
+                      <div style="margin:10px"></div>
+                     <table style='width: 100%;border-collapse: collapse;' cellpadding='5'>
+                        <tr>
+                            <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>6</th>
+                            <td style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align:left;font-family:SansSerif;font-size:10pt;'>General</td>
+                        </tr>
+                    </table>
+                     <div style="margin:10px"></div>
+                     <p class="pNumber"> 6.01 </p>
+                     <p class="pContent"> This AfS is not a sale of immovable property but a transfer of contractual rights under the Original AfS<br/>
+                         <br/> Any special conditions, concessions, deviations, waivers, or non-standard commercial terms granted exclusively to the First Party under the Original AfS or any side letter shall not apply to the Second Party, and the Second Party shall be governed only by the standard terms of the Original AfS applicable to retail allottees.<br/>
+                         <br/>The First Party hereby undertakes to sign, execute and do all such acts, deeds and writings for absolutely conveying to the Second Party the Schedule Property as and when required including but not limited to execution of the Deed of Assignment.
+                     </p>
+                     <p class="pNumber"> 6.02 </p>
+                     <p class="pContent"> This AfS shall be read together with the Original AfS, which shall continue to apply except to the extent expressly modified herein with respect to the subject matter hereof and supersedes any and all other written or oral negotiations, understandings or agreements among the Parties with respect to the matters provided for herein. No change, variation or modification of any of the terms and conditions set forth herein shall be valid unless incorporated as an amendment to this AfS and is signed by the Parties. </p>
+                     <p class="pNumber"> 6.03 </p>
+                     <p class="pContent"> This AfS and the rights and obligations hereunder shall be binding upon and shall inure to the benefit of the Parties hereto and their respective successors or assigns. </p>
+                     <p class="pNumber"> 6.04 </p>
+                     <p class="pContent"> This AfS and the rights and obligations of the Parties hereunder, shall be governed by, and construed and interpreted in accordance with the laws of India. It is agreed between the Parties herein that the courts of Bangalore alone shall have jurisdiction in all matters relating to this AfS. </p>
+                     <!--<p class="pNumber"> 6.05 &nbsp;&nbsp;Special Power of Attorney</p>
+                     <p class="pContent"> The Special of Attorney dated &nbsp;<apex:input type="date" value="{!soaDate}"/> (Annexure-06 of the Original AfS) is hereby agreed to be cancelled and shall be deemed to be modified/replaced by the Special Power of Attorney annexed hereto as Annexure-02</p>-->
+                     
+                      <c:AFSTerplAnnexure QuotId="{!Quote.Id}"/>
+                        <br/><br/><br/><br/>
+                      <!-- <div style="page-break-after:always;"></div>  -->
+                     <table style='width: 100%;border-collapse: collapse;' cellpadding='5'>
+                            <tr>
+                                <td style='border:1px solid #D3D3D3;background-color:#EEEEEE; color:black; text-align:center;font-family:SansSerif;font-size:10pt;'>Schedule Property</td>
+                            </tr>
+                     </table>
+                     <br/>
+                     <p class="pNumber"> Unit No. {!Unt.Name} ({!Unt.Selected_Specification__c} Specifications) admeasuring {!Unt.Saleable_Area_Sub_Product__c} square feet of saleable area ,{!Unt.RERA_Carpet_Area_Sub_Product__c} square feet of carpet area (as per RERA) and having a built-up area of {!Unt.Builtup_Area_Sub_Product__c} square feet on the {!Unt.Floor__c} Floor in Tower {!tw.Name} in the Project called <b>“{!prj.Name}”</b> situated at {!prj.Address__c} along with proportionate undivided share in the land and &nbsp;{!carParkSummary} </p>
+             			<br/>
+					<center>
+                            <apex:commandlink action="{!generatePDF}" target="_blank" style="text-decoration: none;">
+                                <apex:commandButton value="Generate PDF" styleClass="btn-custom" />                                
+                            </apex:commandlink>
+                        </center>
+                 	</apex:outputPanel>
+             </div>
+            </div>
+        </body>
+    </apex:form>
+</apex:page>
