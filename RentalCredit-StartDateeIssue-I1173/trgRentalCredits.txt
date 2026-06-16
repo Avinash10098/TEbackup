@@ -1,0 +1,7 @@
+trigger trgRentalCredit on Rental_Credits__c (before insert) {
+    
+    if(trigger.isBefore && trigger.isInsert){
+        trgRentalCreditHelper.helperMethod(trigger.new);
+    } 
+    
+}

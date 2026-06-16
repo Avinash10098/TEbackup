@@ -1,0 +1,22 @@
+// test class : testtrgRentalCredit
+public class trgRentalCreditHelper {
+    public static void helperMethod(List<Rental_Credits__c> rcList){
+        
+        set<Id> appIdset = new set<Id>();
+        
+        for(Rental_Credits__c r : rcList){
+            if(r.Applicant_Details__c != null){
+                appIdset.add(r.Applicant_Details__c);
+            }
+        }
+        if(!appIdset.isEmpty()){
+            Map<Id,Applicant_Details__c> applicantDetailsMap = new Map<Id,Applicant_Details__c>([select id,Bank_Account_Number__c from Applicant_Details__c 
+                                                                                                 where id IN: appIdset]);
+            for(Rental_Credits__c r : rcList){
+                if(r.Applicant_Details__c != null && applicantDetailsMap.containsKey(r.Applicant_Details__c)){
+                    r.Account_Number__c = applicantDetailsMap.get(r.Applicant_Details__c).Bank_Account_Number__c;
+                }
+            }
+        }
+    }
+}
