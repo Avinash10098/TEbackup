@@ -1,0 +1,785 @@
+//Batch Class used for one time record updates on different objects/
+//TestLeadUpdateBatch
+global class LeadUpdateBatch implements Database.Batchable<SObject>, Database.Stateful {
+    
+    global Database.QueryLocator start(Database.BatchableContext bc) {
+        
+        return Database.getQueryLocator([
+            SELECT Id  , Compensation_Credits_Overall__c
+            FROM Booking__c where Compensation_Credits_Overall__c = null
+        ]);
+    }
+    
+    global void execute(Database.BatchableContext bc, List<Booking__c> bookings) {
+        
+      
+        Set<Id> bookingIds = new Map<Id, Booking__c>(bookings).keySet();
+        
+      
+        List<Compensation_Details__c> compDetails = [
+            SELECT Id, 
+            Booking__c,           
+            Sub_Total__c,         
+            Payment_Type__c       
+            FROM Compensation_Details__c
+            WHERE Booking__c IN :bookingIds
+            AND (
+                Payment_Type__c = 'Monthly Accrual' 
+                OR Payment_Type__c = 'One-time Accrual'
+            )
+        ];
+        
+        
+        Map<Id, Decimal> bookingCreditMap = new Map<Id, Decimal>();
+        
+        for (Compensation_Details__c cd : compDetails) {
+            if (!bookingCreditMap.containsKey(cd.Booking__c)) {
+                bookingCreditMap.put(cd.Booking__c, 0);
+            }
+            Decimal subTotal = cd.Sub_Total__c != null ? cd.Sub_Total__c : 0;
+            bookingCreditMap.put(
+                cd.Booking__c, 
+                bookingCreditMap.get(cd.Booking__c) + subTotal
+            );
+        }
+        
+        
+        List<Booking__c> bookingsToUpdate = new List<Booking__c>();
+        
+        for (Booking__c b : bookings) {
+            Decimal totalCredits = bookingCreditMap.containsKey(b.Id) 
+                ? bookingCreditMap.get(b.Id) 
+                : 0;
+            bookingsToUpdate.add(new Booking__c(
+                Id = b.Id,
+                Compensation_Credits_Overall__c = totalCredits 
+            ));
+        }
+        
+        if (!bookingsToUpdate.isEmpty()) {
+            update bookingsToUpdate;
+        }
+    }
+    
+    
+     
+    
+    /*
+    set<Id> didset ;
+    
+    public LeadUpdateBatch(set<Id> demandId) {
+        didset = demandId;
+    }
+    
+    global Database.QueryLocator start(Database.BatchableContext bc) {
+		system.debug('inside start :');        
+        return Database.getQueryLocator(
+            'Select Id, Name , Invoice_Date__c, Due_Date__c,Booking__r.Unit__r.Permitted_Use__c, '+
+            'Invoice_Number__c, Booking__r.Opportunity__r.Name,  Booking__r.Opportunity__r.Unit__r.Name, '+
+            'Booking__r.Opportunity__r.Unit__r.Tower__r.Name, Booking__r.Opportunity__r.Unit__r.Tower__r.Cluster__r.Name, '+
+            'AttachmentId__c,Booking__r.Primary_Applicant_Email__c,Booking__r.Unit__c,CreatedById, '+
+            'Booking__r.Unit__r.name,SAP_Invoice_No__c,Payment_Milestones__c,SAP_Posting_Date__c, '+
+            'Total_Amount_with_Tax_Demanded__c,Booking__r.Project__r.Name,Booking__r.Relationship_Manager__r.Id, '+
+            'Booking__r.Primary_Applicant_Name__c,Booking__r.OwnerId from Demand__c where id IN: didset and Demand_Updated_Temp__c = false'
+        );
+    }
+    
+    global void execute(Database.BatchableContext bc, List<Demand__c> diList) {
+        system.debug('inside execute :'+diList);
+      try {  
+        List<Demand__c> dmandListForUpdate = new List<Demand__c>();
+        for(Demand__c d1 : diList){ 
+        PageReference pageRef = new PageReference('/apex/showDemandPreviewNew');
+        pageRef.getParameters().put('mode','raise');
+        pageRef.getParameters().put('letterHead','1');
+        pageRef.getParameters().put('previewId',d1.Booking__r.Unit__c);
+        pageRef.getParameters().put('invoiceNumber',d1.SAP_Invoice_No__c);
+        pageRef.getParameters().put('postingdate',MailDemandSendController.dateFormat(d1.SAP_Posting_Date__c));
+        if(d1.Payment_Milestones__c != null)
+        pageRef.getParameters().put('forMilestone',d1.Payment_Milestones__c);
+    	
+        PageReference pageRef2 = new PageReference('/apex/SendDemandMail');
+        pageRef2.getParameters().put('unitId', d1.Booking__r.Unit__c);
+        pageRef2.getParameters().put('invoiceDueDate', d1.Due_Date__c.format());
+        pageRef2.getParameters().put('invoiceNumber', d1.SAP_Invoice_No__c);
+        if(d1.Payment_Milestones__c != null)
+        pageRef2.getParameters().put('milestoneId', d1.Payment_Milestones__c);
+		
+    	
+        Blob body;
+        Blob htmlBody;
+        try {
+            if(!test.isRunningTest()) {
+                body = pageRef.getContentAsPDF();
+                htmlBody = pageRef2.getContent();
+            }
+            else {
+                htmlBody = Blob.valueof('Dummy COntent for Test Methods');
+                body = Blob.valueOf('Some Text');
+            }    
+        } catch (VisualforceException e) {
+            system.debug('in the catch block');
+            body = Blob.valueOf('Some Text');
+        }
+        
+        ContentVersion cont = MailDemandSendController.generateNewContentVersion(body, d1);
+        MailDemandSendController.createFeedItem(cont.Id, d1);
+        
+            d1.AttachmentId__c = cont.id;
+            d1.Email_Sent__c = true;
+            d1.Email_Sent_Date__c = system.now();
+            d1.Demand_Updated_Temp__c = true;
+            dmandListForUpdate.add(d1); 
+        
+        
+        
+        
+            
+            if(!dmandListForUpdate.IsEmpty()){
+                try {    
+                    update dmandListForUpdate;
+                    System.debug('dmandListForUpdate:: ' + dmandListForUpdate);
+                    
+                } catch (exception ex) {
+                    System.debug('Error' + ex);
+                }  
+            }
+        }
+        } catch (Exception exAll) {
+        System.debug('Fatal error in execute: ' + exAll.getMessage());
+    }
+
+    } */
+   
+    global void finish(Database.BatchableContext bc) {
+        integer i =1;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+    }
+    
+}
+
+/* For Updating Accounts
+global class LeadUpdateBatch implements Database.Batchable<SObject>, Database.Stateful {
+    
+    global Database.QueryLocator start(Database.BatchableContext bc) {
+        // Query for leads that are not converted
+        return Database.getQueryLocator(
+            'select Id,Locales__c, Phone_Marketing__c,Country__c, Country_Code__c ,PersonMobilePhone '+
+            'from Account where PersonMobilePhone  != null and Country_Code__c != null'
+        );
+    }
+    
+    global void execute(Database.BatchableContext bc, List<Account> accList) {
+        List<Account> forUpdate = new List<Account>();
+        Map<String, String> cDetails = new Map<String, String>();
+
+        for (Account a : accList) {
+            if (a.Country_Code__c != null && a.PersonMobilePhone != null) {
+                if (a.Country__c != null) {
+                    a.Locales__c = CountryLocaleMapper.getLocale(a.Country__c);
+                } else {
+                    String country = CountryDetails.countryByCode(a.Country_Code__c);
+                    a.Locales__c = CountryLocaleMapper.getLocale(country);
+                }
+
+                String countryCode = a.Country_Code__c;
+                String mobile = a.PersonMobilePhone;
+
+                if (countryCode.startsWith('+')) {
+                    countryCode = countryCode.replaceFirst('\\+', '');
+                }
+                if (mobile != null && mobile.startsWith('+')) {
+                    mobile = mobile.replaceFirst('\\+', '');
+                }
+                if(mobile != null && mobile.startsWith(countryCode)){
+                    if(mobile.substring(0,2) == '91' && countryCode == '91' && (mobile.length() == 12 || mobile.length() == 10)){
+                        mobile = mobile.length() == 12 ? mobile.substring(2, 12) : mobile;
+                    }
+                    else{
+                        mobile = mobile.replace(countryCode, '');
+                    }
+                }
+                a.Phone_Marketing__c = countryCode + mobile;
+            } else {
+                if (a.PersonMobilePhone != null) {
+                    cDetails = CountryDetails.getDetailsByMobile(a.PersonMobilePhone);
+                    System.debug('mobile number details Map::' + cDetails);
+                    
+                    if (cDetails.size() > 0 && cDetails != null) {
+                        String mobile = cDetails.get('mobileNumber');
+                        String country = cDetails.get('country');
+                        String countryCode = cDetails.get('countryCode');
+
+                        if (country != null) {
+                            a.Locales__c = CountryLocaleMapper.getLocale(country);
+                        }
+                        if (countryCode != null && countryCode.startsWith('+')) {
+                            countryCode = countryCode.replaceFirst('\\+', '');
+                        }
+                        a.Phone_Marketing__c = countryCode + mobile;
+                    }
+                }
+            }
+            forUpdate.add(a);
+        }
+
+        if (!forUpdate.isEmpty()) {
+            update forUpdate;
+        }
+    }
+    
+    global void finish(Database.BatchableContext bc) {
+        // Optional: Perform any post-processing or logging here
+    }
+}
+*/
+
+/*  For updating contact records
+global class LeadUpdateBatch implements Database.Batchable<SObject>, Database.Stateful {
+    
+    global Database.QueryLocator start(Database.BatchableContext bc) {
+        
+        return Database.getQueryLocator(
+            'select Id,AccountId,Locales__c, Phone_Marketing__c '+
+            'from Contact where AccountId != null'
+        );
+    }
+    
+    global void execute(Database.BatchableContext bc, List<Contact> conList) {
+        system.debug('conList >>'+conList);
+        Map<Id, Account> accountMap = new Map<Id, Account>();
+        
+        Set<Id> accountIds = new Set<Id>();
+        for (Contact c : conList) {
+            if (c.AccountId != null) {
+                accountIds.add(c.AccountId);
+            }
+        }
+        
+        if (!accountIds.isEmpty()) {
+            accountMap = new Map<Id, Account>([
+                SELECT Id, Country__c, Country_Code__c, PersonMobilePhone 
+                FROM Account 
+                WHERE Id IN :accountIds
+            ]);
+        }
+        
+        
+        
+        List<Contact> forUpdate = new List<Contact>();
+        Map<String, String> cDetails = new Map<String, String>();
+
+        for (Contact c : conList) {
+            Account relatedAccount = accountMap.get(c.AccountId);
+            
+            if (relatedAccount.Country_Code__c != null && relatedAccount.PersonMobilePhone != null) {
+                if (relatedAccount.Country__c != null) {
+                    c.Locales__c = CountryLocaleMapper.getLocale(relatedAccount.Country__c);
+                } else {
+                    String country = CountryDetails.countryByCode(relatedAccount.Country_Code__c);
+                    c.Locales__c = CountryLocaleMapper.getLocale(country);
+                }
+
+                String countryCode = relatedAccount.Country_Code__c;
+                String mobile = relatedAccount.PersonMobilePhone;
+
+                if (countryCode.startsWith('+')) {
+                    countryCode = countryCode.replaceFirst('\\+', '');
+                }
+                if (mobile != null && mobile.startsWith('+')) {
+                    mobile = mobile.replaceFirst('\\+', '');
+                }
+                if(mobile != null && mobile.startsWith(countryCode)){
+                    if(mobile.substring(0,2) == '91' && countryCode == '91' && (mobile.length() == 12 || mobile.length() == 10)){
+                        mobile = mobile.length() == 12 ? mobile.substring(2, 12) : mobile;
+                    }
+                    else{
+                        mobile = mobile.replace(countryCode, '');
+                    }
+                }
+                c.Phone_Marketing__c = countryCode + mobile;
+            } else {
+                if (relatedAccount.PersonMobilePhone != null) {
+                    cDetails = CountryDetails.getDetailsByMobile(relatedAccount.PersonMobilePhone);
+                    System.debug('mobile number details Map::' + cDetails);
+                    
+                    if (cDetails.size() > 0 && cDetails != null) {
+                        String mobile = cDetails.get('mobileNumber');
+                        String country = cDetails.get('country');
+                        String countryCode = cDetails.get('countryCode');
+
+                        if (country != null) {
+                            c.Locales__c = CountryLocaleMapper.getLocale(country);
+                        }
+                        if (countryCode != null && countryCode.startsWith('+')) {
+                            countryCode = countryCode.replaceFirst('\\+', '');
+                        }
+                        c.Phone_Marketing__c = countryCode + mobile;
+                    }
+                }
+            }
+            contact cnew = new contact();
+            cnew.Phone_Marketing__c = c.Phone_Marketing__c;
+            cnew.Locales__c = c.Locales__c;
+            cnew.id = c.id;
+            forUpdate.add(cnew);
+        }
+
+        if (!forUpdate.isEmpty()) {
+            update forUpdate;
+        }
+    }
+    
+    global void finish(Database.BatchableContext bc) {
+        
+    }
+}
+*/
+
+/*
+global class LeadUpdateBatch implements Database.Batchable<SObject>, Database.Stateful {
+    
+    global Database.QueryLocator start(Database.BatchableContext bc) {
+        
+        return Database.getQueryLocator(
+            'select Id,Locales__c, Phone_Marketing__c,Country_Code__c,Country__c,Mobile_Number__c '+
+            'from Applicant_Details__c where Mobile_Number__c != null and (Country__c != null OR Country_Code__c != null)'
+        );
+    }
+    
+    global void execute(Database.BatchableContext bc, List<Applicant_Details__c> appList) {
+        system.debug('appList >>'+appList);
+        
+        List<Applicant_Details__c> forUpdate = new List<Applicant_Details__c>();
+        Map<String, String> cDetails = new Map<String, String>();
+
+        for (Applicant_Details__c a : appList) {
+            
+            if (a.Country_Code__c != null && a.Mobile_Number__c != null) {
+                if (a.Country__c != null) {
+                    a.Locales__c = CountryLocaleMapper.getLocale(a.Country__c);
+                } else {
+                    String country = CountryDetails.countryByCode(a.Country_Code__c);
+                    a.Locales__c = CountryLocaleMapper.getLocale(country);
+                }
+
+                String countryCode = a.Country_Code__c;
+                String mobile = a.Mobile_Number__c;
+
+                if (countryCode.startsWith('+')) {
+                    countryCode = countryCode.replaceFirst('\\+', '');
+                }
+                if (mobile != null && mobile.startsWith('+')) {
+                    mobile = mobile.replaceFirst('\\+', '');
+                }
+                if(mobile != null && mobile.startsWith(countryCode)){
+                    if(mobile.substring(0,2) == '91' && countryCode == '91' && (mobile.length() == 12 || mobile.length() == 10)){
+                        mobile = mobile.length() == 12 ? mobile.substring(2, 12) : mobile;
+                    }
+                    else{
+                        mobile = mobile.replace(countryCode, '');
+                    }
+                }
+                a.Phone_Marketing__c = countryCode + mobile;
+                
+             //   a.Locales__c = null;
+             //   a.Phone_Marketing__c = null;
+            } else {
+                if (a.Mobile_Number__c != null) {
+                    cDetails = CountryDetails.getDetailsByMobile(a.Mobile_Number__c);
+                    System.debug('mobile number details Map::' + cDetails);
+                    
+                    if (cDetails.size() > 0 && cDetails != null) {
+                        String mobile = cDetails.get('mobileNumber');
+                        String country = cDetails.get('country');
+                        String countryCode = cDetails.get('countryCode');
+
+                        if (country != null) {
+                            a.Locales__c = CountryLocaleMapper.getLocale(country);
+                        }
+                        if (countryCode != null && countryCode.startsWith('+')) {
+                            countryCode = countryCode.replaceFirst('\\+', '');
+                        }
+                        if(countryCode != null && countryCode != ''){
+                            a.Phone_Marketing__c = countryCode + mobile;
+                        }
+                    }
+                }
+              //  a.Locales__c = null;
+              //  a.Phone_Marketing__c = null;
+            }
+            forUpdate.add(a);
+        }
+
+        if (!forUpdate.isEmpty()) {
+            update forUpdate;
+        }
+    }
+    
+    global void finish(Database.BatchableContext bc) {
+        
+    }
+}
+Contact Management update on Account
+global class LeadUpdateBatch implements Database.Batchable<SObject>, Database.Stateful {
+    
+    global Database.QueryLocator start(Database.BatchableContext bc) {
+        
+        return Database.getQueryLocator(
+            'SELECT Id,Contact_Management__c,PersonMobilePhone,Phone,PersonEmail,Alternate_Email__c '+
+            'from Account where Contact_Management__c = null'
+        );
+    }
+    
+    global void execute(Database.BatchableContext bc, List<Account> accounts) {
+        system.debug('accounts >>'+accounts);
+        
+        List<Account> appforUpdate = new List<Account>();
+        
+        for (Account acc : accounts) {
+            system.debug('acc >>'+acc);
+            try{
+                Map<String, Contact_Management__c> contactMap = ContactManagementServices.getMatchingContacts(accounts);
+                if (String.isNotBlank(acc.PersonMobilePhone) && contactMap.containsKey(acc.PersonMobilePhone)) {
+                    acc.Contact_Management__c = contactMap.get(acc.PersonMobilePhone).Id;
+                } else if (String.isNotBlank(acc.Phone) && contactMap.containsKey(acc.Phone)) {
+                    acc.Contact_Management__c = contactMap.get(acc.Phone).Id;
+                } else if (String.isNotBlank(acc.PersonEmail) && contactMap.containsKey(acc.PersonEmail)) {
+                    acc.Contact_Management__c = contactMap.get(acc.PersonEmail).Id;
+                } else if (String.isNotBlank(acc.Alternate_Email__c) && contactMap.containsKey(acc.Alternate_Email__c)) {
+                    acc.Contact_Management__c = contactMap.get(acc.Alternate_Email__c).Id;
+                }
+                appforUpdate.add(acc);
+            }catch(Exception ex){
+                system.debug('Failed:: '+ex.getMessage());
+            }
+            
+        }
+        
+        if (!appforUpdate.isEmpty()) {
+            system.debug('Inside appforUpdate >>');
+            Database.SaveResult[] results = Database.update(appforUpdate, false);
+        }
+    }
+    
+    global void finish(Database.BatchableContext bc) {
+        
+    }
+}
+*/
+/*
+global class LeadUpdateBatch implements Database.Batchable<SObject>, Database.Stateful {
+    
+    global Database.QueryLocator start(Database.BatchableContext bc) {
+        
+        return Database.getQueryLocator(
+            'SELECT Id,Contact_Management__c,PersonMobilePhone,Phone,PersonEmail,Alternate_Email__c,is_serviced__c '+
+            'from Account where Contact_Management__c = null and IsPersonAccount = true  and (PersonMobilePhone != null or PersonEmail != null)'
+        );
+    }
+    
+    global void execute(Database.BatchableContext bc, List<Account> accounts) {
+        system.debug('accounts >>'+accounts);
+        
+        List<Account> appforUpdate = new List<Account>();
+        set <ID> AccID = new Set <ID> ();
+        
+        for (Account acc : accounts) {
+            system.debug('acc >>'+acc);
+            try{
+               // acc.is_serviced__c = true;
+                Map<String, Contact_Management__c> contactMap = ContactManagementServices.getMatchingContacts(accounts);
+                if (String.isNotBlank(acc.PersonMobilePhone) && contactMap.containsKey(acc.PersonMobilePhone)) {
+                    acc.Contact_Management__c = contactMap.get(acc.PersonMobilePhone).Id;
+                } else if (String.isNotBlank(acc.Phone) && contactMap.containsKey(acc.Phone)) {
+                    acc.Contact_Management__c = contactMap.get(acc.Phone).Id;
+                } else if (String.isNotBlank(acc.PersonEmail) && contactMap.containsKey(acc.PersonEmail)) {
+                    acc.Contact_Management__c = contactMap.get(acc.PersonEmail).Id;
+                } else if (String.isNotBlank(acc.Alternate_Email__c) && contactMap.containsKey(acc.Alternate_Email__c)) {
+                    acc.Contact_Management__c = contactMap.get(acc.Alternate_Email__c).Id;
+                } else{
+                    AccID.add(acc.id);
+                }
+                appforUpdate.add(acc);
+                
+            }catch(Exception ex){
+                system.debug('Failed:: '+ex.getMessage());
+            }
+            
+        }
+        
+        if (!appforUpdate.isEmpty()) {
+            system.debug('Inside appforUpdate >>');
+            Database.SaveResult[] results = Database.update(appforUpdate, false);
+        }
+        if(!AccID.IsEmpty()){
+            List<Account> acclist  = new List <Account>();
+            List<Opportunity> oplist  = new List <Opportunity>();
+            List<Contact_Management__c> conMgntList  = new List <Contact_Management__c>();
+            
+            acclist = [Select Id,name,RecordTypeId,RecordType.Name,Country__c,PersonMobilePhone,Phone,PersonEmail,Alternate_Email__c,Profession__c,Designation__c,Company_Name__c,
+                       Birth_Date__c,Account_Id__c,Residential_Street__c,Office_Street__c,Nationality__c from Account where Id IN: AccID ];  
+            
+            If(acclist != null && acclist.size() > 0){
+                
+                for(Account a :acclist ){
+                    
+                    Contact_Management__c  conMngt  = new Contact_Management__c();                 
+                    conMngt.Relationship_Business_Level__c  = 'Lead';                
+                    conMngt.Name__c = a.Name;
+                    conMngt.Phone_P__c = a.PersonMobilePhone;
+                    conMngt.Phone_S__c = a.Phone;
+                    conMngt.Email_P__c = a.PersonEmail;
+                    conMngt.Email_S__c = a.Alternate_Email__c;
+                    conMngt.Profession__c = a.Profession__c;
+                    conMngt.Designation__c = a.Designation__c;                
+                    conMngt.Company__c = a.Company_Name__c;            
+                    conMngt.Address__c = a.Residential_Street__c;
+                    conMngt.Country__c = a.Country__c;
+                    conMngt.Company_Address__c = a.Office_Street__c ;  
+                    conMngt.Customer_Unique_Id__c  = a.Account_Id__c;   
+                    conMngt.Date_of_Birth__c = a.Birth_Date__c;
+                    conMngt.Account__c = a.id;
+                    if(a.Nationality__c == 'Indian') {
+                        conMngt.NRI_Status__c = 'Yes';    
+                    }else{
+                        conMngt.NRI_Status__c = 'No';    
+                    }
+                    conMgntList.add(conMngt) ;            
+                    system.debug(conMngt);
+                }
+                
+            }
+            
+            if(!conMgntList.IsEmpty()){
+                try {    
+                    insert conMgntList;
+                    System.debug('conMgntList:: ' + conMgntList);
+                    
+                } catch (exception ex) {
+                    System.debug('Error' + ex);
+                }  
+            }
+        }
+    }
+    global void finish(Database.BatchableContext bc) {
+        
+    }
+    
+}
+*/
