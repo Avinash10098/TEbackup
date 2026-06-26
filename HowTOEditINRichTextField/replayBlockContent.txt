@@ -1,0 +1,19 @@
+Id recordId = 'a1jBl000002ahzlIAA';
+
+Annexure_01__c record = [
+    SELECT Heading_A__c
+    FROM Annexure_01__c
+    WHERE Id = :recordId
+    LIMIT 1
+];
+
+String oldBlock =
+'<table class="ql-table-blob" style="width: 100%; margin-bottom: 10px;" width="100%"><tbody><tr><td colspan="1" rowspan="1" style="width: 45px; background-color: #000000; color: #ffffff; text-align: center; font-weight: bold; font-size: 16px; padding: 12px; border: 1px solid #000000;">1</td><td colspan="1" rowspan="1" style="width: 90%; color: #000000; font-size: 16px; padding: 12px 16px; border: 1px solid #d8dde6; font-weight: bold;">Scope</td></tr></tbody></table>';
+
+String newBlock =
+'<table class="ql-table-blob" style="width: 100%; margin-bottom: 10px;" width="100%"><tbody><tr><td colspan="1" rowspan="1" style="width: 45px; background-color: #000000; color: #ffffff; text-align: center; font-weight: bold; font-size: 16px; padding: 12px; border: 1px solid #000000;">1</td><td colspan="1" rowspan="1" style="width: 90%; color: #000000; font-size: 16px; padding: 12px 16px; border: 1px solid #d8dde6; font-weight: bold;">Scope 2</td></tr></tbody></table>';
+
+record.Heading_A__c =
+    record.Heading_A__c.replace(oldBlock, newBlock);
+
+update record;
