@@ -1,0 +1,951 @@
+<apex:component Controller="PlottedAFSAnnexureController" access="global" allowDML="true">
+    <apex:attribute name="BokId" type="Id" description="Booking Id" access="global" assignTo="{!bId}"/> 
+    <html>
+        <head>
+            <style type="text/css" media="print">
+                @page {
+                
+                @top-center {
+                content: element(header);
+                }
+                
+                size:4in 4in;
+                margin:20mm 20mm 60mm 20mm;
+                
+                }
+                body{
+                margin:0;
+                padding:0;
+                font-family: SansSerif;
+                font-size:18px;
+                line-height:1.5;
+                }
+                @page {
+                size: 8.85in 10.0in;
+                margin:12mm;
+                margin-bottom:190px;
+                }
+                
+                table {
+                page-break-inside: auto;
+                }
+                
+                tr{
+                page-break-inside: avoid;
+                page-break-after: auto;
+                }
+                
+                .maintable {
+                border:1px solid #DCDCDC;       
+                border-collapse: collapse;
+                margin:0;
+                
+                }
+                .maintable tr td {
+                
+                border:1px solid #DCDCDC;
+                border-collapse: collapse;
+                }
+                p.a {
+                white-space: nowrap;
+                }
+            </style>    
+        </head>
+        <body>{!projectdetails}
+            <div>
+                <div style="page-break-after:always;" ></div>
+            <table style='width:100%;border-collapse: collapse;' cellpadding='5'>
+                <tr>
+                    <th style='border:1px solid rgba(202, 202, 202,1);font-family:SansSerif;text-align: center;background-color:#000000;color:#ffffff;'>Annexure 04 - <b>SPECIAL POWER OF ATTORNEY</b> </th>
+                </tr>
+            </table>
+            <div>    
+              <!--  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>  -->
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>This <b>Special Power of Attorney</b> is made and executed on this the {!stDate} at {!prj.City__c},&nbsp;{!prj.State__c}.</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>By</p>
+                <apex:variable value="{!1}" var="count" />
+                <apex:repeat value="{!aplist}" var="aplst" rendered="{!ISNULL(aplist) == false && aplist.size > 0}">
+                    <apex:outputPanel rendered="{!IF(aplst.Type_Of_Applicant__c == 'Individual Buyer',true,false)}">
+                        <p style='font-size:10pt;text-align:justify;margin-top: 0px;margin-bottom: 0px;font-family:SansSerif;color:#4b4b4b;'><b style='color:black;'>{!count}.</b><apex:variable value="{!count+1}" var="count" /> &nbsp;<b>{!aplst.Salutation__c}&nbsp;{!aplst.Name}</b>, [PAN:{!aplst.PancardNo__c}], born on <apex:outputText value="{0, date, dd-MM-yyyy}"> <apex:param value="{!aplst.DOB__c}" /> </apex:outputText>, Son/Daughter/Wife of {!aplst.Father_Husband_s_Name__c}, Residing at,&nbsp; <apex:outputPanel rendered="{!IF(aplst.City__c == Null,true,false)}">{!aplst.Permanent_Address__c}, {!aplst.Country__c}, {!aplst.Pincode_New__c}</apex:outputPanel> <apex:outputPanel rendered="{!IF(aplst.City__c != Null,true,false)}">{!aplst.Permanent_Address__c}, {!aplst.City__c}, {!aplst.State__c}, {!aplst.Country__c}, {!aplst.Pincode_New__c}</apex:outputPanel> </p>
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{!IF(aplst.Type_Of_Applicant__c == 'Corporate Purchaser',true,false)}">
+                        <p style='font-size:10pt;text-align:justify;margin-top: 0px;margin-bottom: 0px;font-family:SansSerif;color:#4b4b4b;'><b style='color:black;'>{!count}.</b><apex:variable value="{!count+1}" var="count" /> &nbsp;<b>{!aplst.Organization_Name__c}</b>, [PAN:{!aplst.PancardNo__c}], incorporated on <apex:outputText value="{0, date, dd-MM-yyyy}"> <apex:param value="{!aplst.DOB__c}" /> </apex:outputText>, represented by their authorised signatory {!aplst.Authorised_signatory_or_GPA_holder__c}, residing at&nbsp; <apex:outputPanel rendered="{!IF(aplst.City__c == Null,true,false)}">{!aplst.Permanent_Address__c}, {!aplst.Country__c}, {!aplst.Pincode_New__c}</apex:outputPanel> <apex:outputPanel rendered="{!IF(aplst.City__c != Null,true,false)}">{!aplst.Permanent_Address__c}, {!aplst.City__c}, {!aplst.State__c}, {!aplst.Country__c}, {!aplst.Pincode_New__c}</apex:outputPanel> </p>
+                    </apex:outputPanel>
+                </apex:repeat>
+                
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>hereinafter referred to as the <b style="color:black;">Principals</b> (which expression shall unless repugnant to the context and/or meaning thereof be deemed to mean and include his/her/their legal heirs, representatives, administrators, executors and permitted assigns).</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>In favour of</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'><b style="color:black;">Tangled up In Green Properties Private Limited</b> [PAN: <span  >AAJCT0527D</span>], a Company registered under the Companies Act, 1956, having its office at "IMAGINE" no. 78, ITPL Road, EPIP Zone, Whitefield, Bangalore - 560 066, hereinafter referred to as the <b style="color:black;">Attorney</b> (which expression shall unless repugnant to the context and/or meaning thereof be deemed to mean and include the Company, its subsidiaries, affiliates, companies/entities under the same management, legal/authorized representatives, administrators, successors-in-interest and assigns)</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>Whereas, the Principals have entered into an <b style="color:black;">Agreement for Sale</b> dated {!stDate} ("<b style="color:black;">AfS</b>") for purchase of a Unit defined herein in the Project <b style="color:black;">{!prj.Name}</b> situated at <b>{!prj.Address__c}, {!prj.City__c}, {!prj.State__c}</b> </p>
+               
+                       <div>
+                
+                <table style='width: 100%;border:none;margin-top:5px;font-size:12pt;' cellpadding='7'>
+                    <tr>
+                        <td style='border:0px solid;font-family:SansSerif;font-size:11pt;'>
+                            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;color:#4b4b4b;margin-top: 0px;margin-bottom: 0px;'><b style ="color:black;">Plot No. </b>{!Unt.name}</p>
+                                                  <p style='font-size:10pt;text-align:justify;font-family:SansSerif;color:#4b4b4b;margin-top: 0px;margin-bottom: 0px;'><b style ="color:black;">Plot Area: </b>{!Unt.Saleable_Area_Sub_Product__c} &nbsp; square feet</p><br/>
+                            
+                            
+                            
+                        </td>
+                        <td style='border:0px solid rgba(202, 202, 202,1); width:50%;'>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+                
+            </div>
+        </div>
+        <div style='page-break-after: always;'></div>
+        <div>
+            <p style='font-size:10pt;font-family:SansSerif;color:black;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'><b>Whereas:</b> </p>
+            <p style='font-size:10pt;font-family:SansSerif;color:black;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>0.01</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>Pursuant to getting possession of the Unit, the Principals have resolved to form a legal entity in the form of an
+Owners Association by way of forming a legal entity in the form of a Company/Society or its equivalent etc. and
+                also intend to submit the same to the concerned authority for registration.</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:black;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>0.02</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>In order to effectively carry out the aforementioned acts with respect to the Unit, the Principals hereby appoint,
+nominate and constitute the Attorney as their lawful attorney to act on their behalf and inter-alia to do the
+following acts, deeds and things mentioned herein:
+            </p>
+            <p style='font-size:10pt;font-family:SansSerif;color:black;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>1.01</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>To sign all application forms, documents, bye-laws including declarations and affidavits, for the purpose of
+registration of the Owners Association with the appropriate authority and to present all/or any of such
+documents for registration, to admit execution before the sub-Registrars/registrar of association or any other
+                competent authority as per law.</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:black;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>1.02</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>To do all acts, execute all deeds and such other things necessary, on our behalf, for completing the registration
+of the Owners Association in the manner required by law, and generally to do all other acts, deeds in connection
+                with the same as the Attorney shall consider necessary.</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:black;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>1.03</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>The Principals hereby agree to ratify and confirm all and whatever other act or acts the Attorney has lawfully
+done or shall lawfully do, execute or perform or cause to be done, executed or performed in connection with the
+registration of the Owners Association under and by virtue of this deed notwithstanding that an express power
+                in that behalf is not provided herein.</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>IN WITNESS WHEREOF, the Parties hereto have signed these presents on the day and year above written. </p>
+            <p style='height:50px;'>&nbsp;</p>
+            
+            <table style='width:100%;border:none;'>
+                <tr>
+                    <th style='border:1px solid #d3d3d3;height:150px;vertical-align:bottom;text-indent:10px;font-size:10pt;text-align:left;'>Principals</th>
+                    <th style='border:1px solid #d3d3d3;height:150px;vertical-align:bottom;text-indent:10px;font-size:10pt;text-align:left;'>Attorney</th>
+                </tr>
+                <tr>
+                    <td style='border:1px solid #d3d3d3;height:150px;'><p style='margin:0;font-size:10pt;text-indent:10px;'>Signature</p><p style='margin:0;font-size:10pt;text-indent:10px;'><b>Witness 01</b> (Name and Address)</p></td>
+                    <td style='border:1px solid #d3d3d3;height:150px;'><p style='margin:0;font-size:10pt;text-indent:10px;'>Signature</p><p style='margin:0;font-size:10pt;text-indent:10px;'><b>Witness 02</b> (Name and Address)</p></td>
+                </tr>
+            </table>
+              <p style='height:50px;'>&nbsp;</p>
+            <table style='width:100%;border-collapse: collapse;' cellpadding='5'>
+                <tr>
+                    <th style='border:1px solid rgba(202, 202, 202,1);font-family:SansSerif;text-align: center;background-color:#000000;color:#ffffff;'>Annexure 05 - <b>POLICIES</b> [<b>{!prj.Name}</b>] </th>
+                </tr>
+            </table>
+              <table style='height:99%;width: 99%;margin-left: auto;margin-right: auto;' cellpadding='5'>
+            
+        </table>
+               <table style='height:99%;width: 99%;margin-left: auto;margin-right: auto;' cellpadding='7'>
+            <tr>
+                <td style='vertical-align:middle;'>
+                    <div style='background: #7f7f7f;line-height:50px;color: #FFFFFF;text-align:center;font-size:20px;border:1px solid #7f7f7f;margin-top: 10px;font-family:SansSerif;' ><b>POLICY 1 [Sale and Lease Policy]</b></div>
+                </td>  
+            </tr>
+        </table>
+             <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>1</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Sale</th>
+                </tr>
+        </table>
+        <div>
+            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.01</p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>In the event the Allottees transfer their Unit through sale or voluntary conveyance, the same shall be intimated
+in writing to the Association as defined in the AfS, at least 15 (fifteen) days in advance. In all other cases
+including gifting, takeover by mortgagee etc., the transfer of title shall be intimated not later than 30 (thirty)
+days of the transfer, gift or succession as the case may be.</p>
+             <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.02</p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The transferee, after such intimation shall be deemed to have consented to abide by the Bye-laws laid down by
+the Association. In accordance with the legal entity formed to govern the Project, hereinafter referred to as the
+'Association,' as defined in the AfS, the Association shall establish and maintain a governing body responsible
+for the effective management and administration of the Project. The governing body shall be vested with the
+authority to make decisions, formulate policies, and execute actions necessary for the successful operation of
+the Association and the accomplishment of its objectives. The composition, powers, and procedures of the
+governing body shall be determined and documented in the Association's governing documents, including but
+not limited to the Articles of Association or Bylaws, and shall be subject to applicable laws and regulations.
+[“<b>Governing Body</b>”]</p>
+                         <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.03 &nbsp;&nbsp;<b>Sale of Units</b></p>
+                     <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Upon any Allotee selling their Unit or absolutely conveying the same by way of gift, will or in any other manner,
+the transferee thereof shall become a Member of the Association. Prior to any Allottees selling their Unit, the
+Allottees shall obtain a No Objection Certificate (NOC) from the Association. The No Objection shall be only to
+ensure clearance of all dues as well as ensuring that the draft of the sale deed is approved and includes the
+clauses pertaining to the rights and obligations of the Allottees. The Association shall not unreasonably hold
+back the NOC.</p>
+            </div>
+            <!--adding-->
+             <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>2</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Lease</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.01&nbsp;&nbsp;<b>Consent to Bye-laws</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>All rental, lease or license shall be deemed to  be subject to the covenants and restrictions contained in the ByeLaws/Policies of the Association, and as may be modified from time to time. It shall be the responsibility of the
+Allottees to ensure that the lessee is bound by all the Bye Laws and other regulations in this Deed. Tenants
+shall also be responsible for the behaviour of their guests and visitors.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.02</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Units shall not be rented or leased or licensed in any manner, directly or indirectly, for transit or hotel
+purposes.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.03 &nbsp;&nbsp;<b> Lease Deed</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Allottees, when renting or leasing their Units, MUST include the following clauses in their Lease Deed or
+Rental Agreement and must also Annexe the Bye-Laws of the Association along with such deed/agreement. 
+</p>
+      <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">a.&nbsp;&nbsp;<b>No structural alterations</b> </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 1px;margin-top: -5px;'>The Lessee shall not to make any structural alterations and / or additions to the Unit save with the permission
+of the Governing Body.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle"><b>b.&nbsp;&nbsp;Use of Premises</b> </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 1px;margin-top: -5px;'>The Lessees shall use the Unit exclusively for residential purposes only unless otherwise agreed in writing by the Governing Body and shall not to keep or store in or upon any part of the Unit, any goods of a combustible or explosive nature, not to cause any nuisance or annoyance to the neighbours and other occupants of the project and to observe and perform all the rules and regulations and bye-laws as to the use of the project as laid down by the concerned Association of the Project from time to time.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle"><b>c. &nbsp;Association Bye Laws and Policies</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>The Lessee hereby consents to all the Bye Laws and Policies of the Association as may be framed and modified
+from time to time, and the Lessee is required to procure a copy of the latest version from the Governing Body. </p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.04 &nbsp;&nbsp;<b>Shifting Fee</b> </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Each time the Allottees rent or lease out their Units, they shall pay to the Association, a shifting fee of INR
+10,000 (Rupees Ten Thousand only) that may be used towards expenses for repairing any damages that may
+occur during the moving of household goods by the Lessee. In case of there being no such damage requiring
+repair, the said fee may be utilized as part of the common fund for maintenance of common areas. </p>
+<p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.05&nbsp;&nbsp;<b>Lease of Car Parking Spaces</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Allottees shall not rent / lease out the car parking space/s except to persons residing in the Project and for
+                    use as a parking space only.</p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.06 &nbsp;&nbsp;<b>Payment for Common Expenses</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>It shall be responsibility of the Allottees to pay for ALL common expenses and other outgoings for their Unit,
+                    even if their unit has been rented or leased out. </p>
+                <p style='font-size:10pt;font-family:SansSerif;;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.07 &nbsp;&nbsp;<b>Pets</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>In case the Lessee plans to bring in any pets, they must sign and submit the Pet Information Form to the
+                    Property Management Team and sign the Pet Policy before bringing in the Pets into the Project.</p>
+            <!--code for 2nd ploicy-->
+                    <div style='page-break-after: always;'></div>
+
+                           <table style='height:99%;width: 99%;margin-left: auto;margin-right: auto;' cellpadding='7'>
+            <tr>
+                <td style='vertical-align:middle;'>
+                    <div style='background: #7f7f7f;line-height:50px;color: #FFFFFF;text-align:center;font-size:20px;border:1px solid #7f7f7f;margin-top: 10px;font-family:SansSerif;' ><b>POLICY 2 [Use of Premises Policy]</b></div>
+                </td>  
+            </tr>
+        </table>
+             <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>1</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Use of Units</th>
+                </tr>
+        </table>
+        <div>
+            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.01 &nbsp;&nbsp;<b>Residential use</b></p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Units in the Project are single family units. All Units shall be utilized for residential purposes only. The
+Allottees shall not use or allow their Units to be used for any illegal, immoral, noisy, offensive or dangerous
+activity or trade or pursuit or for any purpose which may or is likely to cause nuisance or annoyance to the
+Allottees and occupants of other portions of the Project or to the occupiers of the neighbouring premises, or
+which may tend to depreciate the value of the Units in the Project such as a Guest House, Boarding House, Club
+House, Nursing Home, Amusement or Entertainment Centre, Eating or Catering Place, Dispensary or a Meeting
+Place or for industrial activities.
+</p>
+            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.02 &nbsp;&nbsp; <b>Guest House or Hostel</b></p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Unit Allottees shall not allow their Units to be used as a guest house or hostel without prior written
+permission of the Governing Body.</p>
+                         <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.03 &nbsp;&nbsp;Students and Groups</p>
+                     <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Unit Allottees shall not rent, lease or otherwise allow their Units to be used by a group or groups of
+students, or a group of working men or women, or as Paying Guest accommodation, except with the written
+permission of the Governing Body.</p>
+            </div>
+            <!--adding-->
+             <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>2</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Modifications/alterations and aesthetic appearance of the Project</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>  It shall be the responsibility of the Allottees (including ensuring compliance by their tenants).</p>
+          
+
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.01</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Not to install Awnings, Grills, Glazing panels or to paint any part of the project or do any act or thing that may
+adversely affect the aesthetic appearance/ beauty of the Project.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.02</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>To obtain written permission from the Promoters AND the Association for any modifications/alterations or
+repair work to the exterior of the Project.</p>
+           <!--     <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.03 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Not to close or permit the closing of verandahs or lounges or balconies or lobbies and common parts.</p>
+      
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.04  </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Not to alter or permit any alteration in the elevation and external colour of the walls of the verandahs, lounges
+or any external walls or the external doors and windows including grills of their Unit. </p>
+<p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.05</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Not to fix or install air-conditioners for their Unit save and except through the Promoters or the Property
+Managers.</p> -->
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.03 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Not to put any article in or upon the windows balconies /terrace railings/roof and other portions which may
+be exposed in a manner or be visible to the outsiders. Not to expose from or hang out of the windows, any
+clothing or materials for the purpose of drying or airing them or for any other purpose whatsoever. </p>
+                <p style='font-size:10pt;font-family:SansSerif;;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.04 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Not put up any hoarding, name plates sign-boards, graffiti etc., in any place other than that demarcated and
+allotted by the Promoters or Governing Body.</p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.05</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Not to erect or cause to be erected, any aerial or satellite dish on the roof or any external elevation of the Unit
+or Project, without the permission of the Association.</p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.06 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Not to alter and / or modify the colour combination, exterior façade and the “look and feel” of the Project at
+any time without the prior written consent of the Promoters as the Allottees are aware that the Promoters
+maintain a unique exterior look for all of their projects and have earned a special repute for their projects. The
+colour combination and exterior façade and the “look and feel” of their projects has become an integral part of
+the branding of “Total Environment” to the extent that the public at large associates the combination and / or
+look of the projects with Total Environment and they have thus acquired immense goodwill amongst the
+industry and the public. In view of the goodwill already created, the Allottees have already undertaken and
+warranted with the Promoters not to alter and / or modify the colour combination, exterior façade and the
+“look and feel” of the project at any time without the prior written consent of the Promoters. Further the
+Residential Unit Allottees / Association consents that if he fails to honour his / her / their undertaking and
+warranty as aforesaid and as agreed, the Promoters shall, on notice of the same, have the right to disown the
+project and withdraw the name and brand of “Total Environment” bestowed upon the project stop all
+maintenance services being provided by them or their affiliate / sister / subsidiary companies after giving a
+notice of 60 (Sixty) days and shall, in such case, refund any balance maintenance advance amount still pending
+with them after deducting for expenses, overheads and profits as per the Maintenance Contract.</p>
+            <!--adding code-->
+            <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>3</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Parking</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.01 &nbsp;&nbsp; <b>Use of Parking Space</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Allottees shall NOT use or permit to be used, each allocated car parking space for any other purposes
+whatsoever other than parking of their own car.</p>
+                            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Allottees shall NOT keep in their parking space/s, anything other than a private motor car or motor cycle
+and shall NOT park any commercial vehicles including mini-trucks, Canters, Auto-rickshaws, tempos, tempo
+                                travellers, mini-buses etc.</p> 
+             <!--   <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.02  &nbsp;&nbsp; <b>Construction or Installation</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Allottees shall NOT raise or put up any temporary or permanent construction, grill, wall or enclosure
+thereon or part thereof and keep it always open as before.</p> -->
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.02 &nbsp;&nbsp;<b>Storage or Residence</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Allottees shall NOT permit any person to reside in their car parking space/s. <!--and NOT store any materials in
+                    the car parking space.--> </p>
+            <!--
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.04 &nbsp;&nbsp;<b>Not more than one car</b> </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Allottees shall NOT park more than one single car in a car parking slot, unless it has been clearly purchased
+as a double or linked car park.  </p>
+<p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.05 &nbsp;&nbsp; <b>Sale</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Allottees shall NOT transfer / sell the said car parking space/s to any outsider who does not own a
+Residential Unit in the Project.</p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.06 &nbsp;&nbsp;<b>Parking in other Spaces</b> </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Allottees shall NOT park their car/s on the pathway or open spaces of the Project or at any other place
+except the space allotted to them.</p>
+                <p style='font-size:10pt;font-family:SansSerif;;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.07 &nbsp;&nbsp;<b>Repairs and Maintenance of Vehicles not permitted</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Allottees shall not undertake or allow to be undertaken upon or at the Project, any repairs or maintenance
+(other than minor repairs or maintenance) to any vehicle whatsoever. </p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.08 &nbsp;&nbsp;<b>Condition of Vehicles</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Allottees shall not keep or allow to be kept, in the Project, any vehicle that is not in a roadworthy condition
+and must not store or allow to be stored, any spares, parts, oils or fuels for any vehicle/s in the car parking
+space.</p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.09  &nbsp;&nbsp;<b>Visitor Parking</b> </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Visitors must park only in the space specifically allotted for Visitor Parking.</p>      
+                -->
+            <!--
+            <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>4</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Common Areas and Facilities</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">4.01 &nbsp;&nbsp; <b>Common Areas free from obstructions</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>To keep common areas clean and free from obstructions. The Members shall not obstruct any passage, landing
+or staircase leading to ingress and egress and under the sprinkler system of lift machine room.</p>
+          
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">4.02  &nbsp;&nbsp; <b>Elevators</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Allottees shall not use or authorize the use of any passenger elevator for carrying any goods and must not
+permit or suffer any passenger elevator to be used for carriage of any number of persons greater than the
+maximum number specified by notice in the lift.</p>
+            -->
+                    <div style='page-break-after: always;'></div>
+
+                           <table style='height:99%;width: 99%;margin-left: auto;margin-right: auto;' cellpadding='7'>
+            <tr>
+                <td style='vertical-align:middle;'>
+                    <div style='background: #7f7f7f;line-height:50px;color: #FFFFFF;text-align:center;font-size:20px;border:1px solid #7f7f7f;margin-top: 10px;font-family:SansSerif;' ><b>POLICY 3 [Safety and Security Policy]</b></div>
+                </td>  
+            </tr>
+        </table>
+             <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>1</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>General Rules</th>
+                </tr>
+        </table>
+        <div>
+            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.01 &nbsp;&nbsp;<b>Information</b></p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>All Allottees are required to provide current updated information to the Association in respect of the following
+for security purpose:</p>
+                        <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">i.&nbsp;&nbsp;Names of all occupants of their Unit;</p>
+                        <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">ii.&nbsp;&nbsp;Emergency contact numbers;</p>
+                        <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">iii.&nbsp;&nbsp;Email ID. </p>
+
+            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.02</p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents shall not physically or verbally abuse Security staff or Maintenance staff. If inappropriate behaviour is
+                          witnessed, Residents are advised to inform the Governing Body or Property Manager.</p>
+                         <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.03 </p>
+                     <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents are required to inform domestic help and support staff to be considerate to other residents while
+using common areas.</p>
+             <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.04</p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents shall not use Property Management staff or Security staff for any personal works.
+</p>
+                         <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.05 </p>
+                     <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>All residents must obtain car stickers from the Property Manager.</p>
+            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.06</p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents entering the Project in a cab or taxi MUST stop at the main gate to identify themselves to the
+                          security.</p>
+                         <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.07 </p>
+                     <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents shall not allow children to play near the Sewage Treatment Plant, Water Treatment Plant,
+Transformer Yards, Sub-stations, Electrical Junction zones, Diesel Generator Installations, Fire Safety Equipment
+                         and any other such equipment, in the interest of their safety.</p>
+                        <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.08</p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents shall ensure that all maids, drivers and temporary hires are registered with the Governing Body and
+make an entry at the security office while entering and exiting the Project.</p>
+                         <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.09 </p>
+                     <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents shall ensure that once an employee ceases to be employed, the Security and Property Management
+                         office are informed immediately.</p>
+             <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.10 &nbsp; &nbsp; <b>Speed Limits</b></p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents are requested to ensure that they and their driver(s) / visiting guests / taxi-drivers / vendors observe the SPEED LIMIT of 20 km/ hour within any part of the Project.</p>
+            </div>
+            <!--adding-->
+             <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>2</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Right of Entry</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.01</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>In case of any emergency originating in or threatening any Unit, the Governing Body, Property Managers and
+its employees / contractors shall have the right to enter the Unit, whether the Resident or Allottee / Tenant is
+                    present at that time or not.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.02</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>A Resident or an Allottee shall permit the other Allottees and the employees / contractors of the Association,
+Property Managers when so required, to enter their Unit for the purpose of performing installations,alterations, repairs to the mechanical and electrical services, provided that request is made in advance and that
+                    such entry is at a reasonably convenient time.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.03 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>A Resident or an Allottee is not authorized to and shall not grant access to common Electric Panels, Generators,
+Lifts or any other common equipment or installation, to any outsider or outside agency for repairs / alterations.
+No unauthorized person is allowed inside the Power Rooms, Generator Rooms and Lift Rooms. In case any of
+these are to be inspected or altered / repaired this will be done only by contractors appointed by the
+                    Governing Body or the Property Managers for this purpose. </p>
+               
+            <!--adding code-->
+            <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>3</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Maintenance, Repair and Improvements</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.01</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Every Resident or Allottee must perform promptly all maintenance and repair work within their Unit, which if
+omitted would affect, in entirety or in part, the Project or another Unit belonging to others.</p>
+                            
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.02 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>In the event of the failure of the Resident or Allottee to carry out the repairs as are necessary, the Governing
+Body shall be entitled to carry out the repairs after notice to the Resident or Allottee of the same and charge
+                    them for the expenses. </p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.03</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Every Resident or Allottee shall be liable for any loss or damage caused to the Project or any part thereof
+                    belonging to others due to their failure to discharge their obligation.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.04  </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>In case of any problem that requires repair or maintenance work, the cost of the same shall always be borne by
+                    the Allottee where the source of the problem originates. </p>
+<p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.05</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>All maintenance, repairs and improvement works, except works that are of an emergency nature, shall only be
+                    carried out between 8 am and 6 pm and only on weekdays. </p>
+          
+                <!--adding code-->
+            <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>4</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Structural Stability and Hazardous Materials</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;'>It shall be the responsibility of the Allottees:</p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">4.01 &nbsp;&nbsp; <b>Structural Stability</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>To maintain or remain responsible for the structural stability of their Unit and not to do anything which has the
+                    effect of affecting the structural stability of the Project or any part thereof.</p>
+          
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">4.02  &nbsp;&nbsp; <b>Storage</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Not to store or bring and allow to be stored in the Unit or in the Project, any goods of hazardous or
+combustible nature or which are so heavy as to affect or endanger the structure of the Project or any
+portion of any fittings or fixtures thereof including windows, doors, floors etc. in any manner. Not to use or
+permit to be used, any oil or paraffin or gas heater or lamp or any other lamp or heater that may be a fire
+                    hazard.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">4.03 &nbsp;&nbsp; <b>Structural Loads</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Not to do or cause anything to be done in or around the Project which may cause or tend to cause or
+tantamount to cause or effect any damage to the any Unit of the Project or in any manner interfere with the
+                    use and enjoyment thereof or any open roads or passages or amenities available for common use.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">4.04  &nbsp;&nbsp; <b>Demolition and Damage</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Not to damage or demolish or cause to be damaged or demolished, the Project or any part thereof or the
+                    fittings and fixtures affixed thereto.</p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">4.05 &nbsp;&nbsp; <b>Gas Leaks</b></p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Resident or Allottees shall not neglect any escape of gas from any gas pipe or appliance in their Unit, or
+                cause or permit to be caused, such an escape, and, where an escape of gas is suspected, the Resident or
+                Allottee must ensure that the pipe or appliance, as the case may be, is examined promptly by a skilled gas fitter
+                or gas engineer and that any necessary repair or replacement of any pipe or appliance is undertaken
+                immediately.</p>
+            
+            <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>5</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Visitor Management</th>
+                </tr>
+            </table>
+            
+          
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">5.01  &nbsp;&nbsp; <b>Security Procedures</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents shall fully abide by security procedures as defined by the Governing Body from time to time, to
+ensure the safety and security of the Project premises.
+All visitors are required to register themselves at the security office at the front gate.</p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">5.02 &nbsp;&nbsp; <b>Vendors, Contractors, Service Providers</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents shall ensure that any vendors/service personnel that they permit to visit their Unit leave the
+                    premises immediately upon completion of the purpose of the visit.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">5.03  &nbsp;&nbsp; <b>Fruit and Vegetable Vendors</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Fruit and vegetable vendors shall not be permitted to enter the Project. Residents are advised not to demand
+                    that the security personnel allow any such vendors into the Project.</p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">5.04  &nbsp;&nbsp; <b>Essential Service Providers</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Essential Service providers like Daily Newspaper supplier, Milk delivery man, may be permitted to enter the
+Project after due permission from the Governing Body with identity card/Photo Pass issued by the Governing
+                    Body on registration with them.</p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">5.05 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Residents shall not use or authorize the use of any passenger elevator for carrying any goods and must not
+permit or suffer any passenger elevator to be used for carriage of any number of persons greater than the
+                    maximum number specified by notice in the lift.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">5.06</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Visitors must park their cars only in the space specifically designated for “Visitor Parking” and shall not park in
+any other part of the Project.</p>
+             <!--code for 4th ploicy-->
+                    <div style='page-break-after: always;'></div>
+
+                           <table style='height:99%;width: 99%;margin-left: auto;margin-right: auto;' cellpadding='7'>
+            <tr>
+                <td style='vertical-align:middle;'>
+                    <div style='background: #7f7f7f;line-height:50px;color: #FFFFFF;text-align:center;font-size:20px;border:1px solid #7f7f7f;margin-top: 10px;font-family:SansSerif;' ><b>POLICY 4 [Pet Policy]</b></div>
+                </td>  
+            </tr>
+        </table>
+                        <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;text-align:justify;margin: 0px;'>This policy establishes the terms and conditions under which a Resident may be permitted to house a pet in
+their Unit. The primary objective of this Policy is to provide a decent, safe and sanitary environment for the
+Unit Allottees and Residents of the Project, as well as visitors, vendors and the employees of various agencies
+deployed in the Project.</p>
+             <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;text-align:justify;margin: 0px;margin-bottom: 2px;'>Any Resident who desires to acquire a new pet, keep an existing pet, hereinafter referred to as a “<b>Pet Owner</b>”,
+                 shall do so in a manner consistent with these rules.</p>
+
+             <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>1</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Records</th>
+                </tr>
+        </table>
+        <div>
+            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.01 </p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>A Pet Owner MUST register their pet/s as soon as they adopt a pet/s or move in with a pet/s by submitting the
+“Pet Information Form” as per the template attached in Annexure-01, to the Property Management
+Department, completely filled in and duly signed. Annual updates with respect to vaccination records etc. must
+be submitted to the Property Management Department by 31st
+                          of December every year.</p>
+                       
+
+            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.02</p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Property Management Department shall be responsible for maintaining records required as per this policy.
+                          billing for damages caused by pets and scheduling of repairs required because of pet action. </p>
+                         
+            </div>
+            <!--adding-->
+             <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>2</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Safety</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: 2px;'>Pet Owner/s shall be fully responsible for the safety of all other residents, visitors, vendors, employees of
+various agencies deployed in the Project from their pet/s and shall ensure that their pet/s are adequately
+trained. Any pet/s entering the Project with a guest of a Resident shall be the responsibility of the respective
+Resident. Pet Owners shall take full responsibility for the pets hormonal changes which could often trigger
+aggressive behaviour. Aggressive pets must be muzzled at all times when in common areas. </p>
+               
+            <!--adding code-->
+            <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>3</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Hygiene</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.01</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>A Pet Owner shall be responsible to ensure that the common areas of the Project are not dirtied by their pets
+and shall be responsible to clean up after them, when required using a “pooper scooper” and disposable plastic
+bag. Pet waste shall be bagged and disposed of in appropriate trash receptacles only and nowhere else. Not
+                    picking up after your pet is an offence and will be fined INR 1000 per incident. </p>
+                               
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.02 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Pet Owners shall be responsible for ensuring that the rights of other residents to peace and quiet enjoyment of
+their property, proper health, and/or safety are not infringed upon or diminished by their pet’s noise, odours
+                    and wastes.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.03</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Pet Owners shall be responsible for proper care, including but not limited to flea control, regular vaccination,
+                    certifications of which must be presented to the Property Management Team regularly.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.04  </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>A Pet Owner shall keep their Unit and surrounding areas free of pet odours, insect infestation, waste and litter
+from their pets and maintain the Unit in a sanitary condition at all times. </p>
+
+          
+                <!--adding code-->
+            <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>4</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Permitted Pets</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">4.01 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Dogs, Cats and Fish are permitted as pets. For any other animals, the Resident must obtain permission from the
+Association before bringing such pet/s into the Project premises. No Poultry, Dairy or Farm Animals shall be
+                    permitted within the residential premises of any resident under any circumstances.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">4.02 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents are prohibited from feeding or harbouring stray animals. Feeding or harbouring a stray animal shall
+amount to keeping an animal without approval of the Association, and a breach of the Bye-Laws of the
+                    Association.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">4.03 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents are specifically prohibited from housing any “dangerous breeds of dogs. "Dangerous Breeds" shall
+refer to breeds of dogs that are recognized as having a propensity for aggression, posing a risk to the safety and
+well-being of residents and their pets. The list of Dangerous Breeds shall be determined by the Association and
+                    may include, but shall not be limited to, the following breeds: </p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>[List of specific breeds].</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>**</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'> The Association reserves the right to review and update the list of Dangerous Breeds as necessary, based on
+                current information and expert advice related to behaviour and public safety. </p>
+
+
+             <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>5</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Access and Movement of Pets</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">5.01</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Pet owners shall keep their pet/s inside their Unit at all times and when taken out, they must be accompanied
+by a responsible person who has the ability to control and command the pet/s. When outside the Unit, the
+pet/s must be controlled on a leash. No Leash in the Common Areas will result in a fine of INR 1000.
+Retractable leashes are not permitted. Pet Owners must remain alert while walking their pets and give way to
+                    elderly people, kids or strollers and must be specially cautious while using elevators. </p>
+          
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">5.02 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>No pets shall be tied or chained outside the Unit. No pet is to remain unattended, without proper care, for
+                    more than 24 (twenty-four) hours. </p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">5.03 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Pet Owners shall ensure that their Pet/s are not allowed to enter the following areas which are designated
+                    as NO-PET ZONES:</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">a.&nbsp;&nbsp;Children’s Park and Play Area.</p>
+              <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">b.&nbsp;&nbsp;Central Greens (if Applicable)</p>
+              <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">c.&nbsp;&nbsp;Clubhouse.</p>
+              <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">d.&nbsp;&nbsp;All sports facilities including but not limited to badminton, tennis, basketball,</p>
+              <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">e.&nbsp;&nbsp;Swimming Pool Area</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>And any other areas as may be decided by the Home-Owners Association</p>
+ <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>6</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Grievance Redressal</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">6.01</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Complaints, if any, by other residents or personnel deployed in the Project, regarding pets shall be referred tothe Home Owners Association which shall be responsible for investigation of such complaints if required. </p>
+          
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">6.02 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Any incident of physical attack must be reported and logged by the victim using the complaint redressal system
+                    at the Project. </p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">6.03 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>It is recommended that the Pet Owners and aggrieved parties settle their issues amicably or as advised by their
+respective legal counsels on their own accord. </p>
+             <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>7</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Dog Park Rules (if applicable)</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">7.01</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Non pet owners (adults and children) are advised not to enter the dog park. If they do so, it is at their own risk.</p>
+          
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">7.02 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Poop must be scooped and binned from inside the dog park as well. Defaulters will be fined at INR 1000/- per
+                    incident.</p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">7.03 </p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>If your pet is unwell with a transferable infection, please keep them at home, and away from other pets till they
+                    recover.</p>
+            <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>8</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Responsibility of Residents</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">8.01</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents shall not tease pets. Runners and cyclists shall adjust their path if they can, to avoid pets</p>               
+                            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">8.02 </p>
+    
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>If Residents are not comfortable around pets, please keep your distance.</p>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">8.03 </p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents shall ensure that their guests are always in compliance with the Pet Policy. </p>
+            
+             <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: center;font-family:SansSerif;'>Annexure 01 – Pet Information Form</th>
+                 </tr></table><br/><br/>
+            
+            
+                     <table style='width:90%;border-collapse: collapse;font-size:10pt;margin-left:4%;' >                <tr>
+                  <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Unit Number:</td>
+                      </tr>
+                      <tr>
+                     <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Resident’s name:</td></tr>
+                      <tr>
+                     <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Emergency contact details:</td></tr>
+                      <tr>
+                   <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Type of pet and breed:</td></tr>
+                      <tr>
+                  <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Age of pet:</td></tr>
+            </table>
+            <table style='width:90%;border-collapse: collapse;font-size:10pt;margin-left:4%;'> 
+                      <tr>
+                   <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Name of Pet :</td>
+                    <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Picture of Pet</td>
+
+                </tr>
+            </table>
+                        <table style='width:90%;border-collapse: collapse;font-size:10pt;margin-left:4%;'> 
+
+                       <tr>
+                  <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Description of the pet:</td>
+               
+                </tr>
+                      <tr>
+                    <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Vaccinated: Yes _____ (if yes the date of the last vaccination) No ____ </td>
+               
+                </tr>
+                       <tr>
+                    <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Neutered: Yes/No ____ </td>
+               
+                </tr>
+                       <tr>
+                    <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Telephone - Mobile: </td>
+               
+                </tr>
+                       <tr>
+                    <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Email:  </td>
+               
+                </tr>
+            </table><br/><br/>
+                        <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>I/We have read and understand and agree to abide by the Pet Policy and shall be responsible for the actions of
+                            our pet/s and pet walker/s in line with the Pet Policy.</p><br/>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Signed .......................................................... </p><br/>
+                       <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Date ................................................. </p>
+
+            <!---5th Plocy-->
+                    <div style='page-break-after: always;'></div>
+
+             
+                           <table style='height:99%;width: 99%;margin-left: auto;margin-right: auto;' cellpadding='7'>
+            <tr>
+                <td style='vertical-align:middle;'>
+                    <div style='background: #7f7f7f;line-height:50px;color: #FFFFFF;text-align:center;font-size:20px;border:1px solid #7f7f7f;margin-top: 10px;font-family:SansSerif;' ><b>POLICY 5 [Housekeeping and Hygiene Policy]</b></div>
+                </td>  
+            </tr>
+        </table>
+
+
+             <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>1</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Housekeeping</th>
+                </tr>
+        </table>
+        <div>
+            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.01 &nbsp; &nbsp; <b> Cleanliness and Upkeep</b></p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The occupants of each Unit shall be responsible for the cleanliness and upkeep of their "notional area" (which
+is the entire land from their rear boundary till the centre of the road or lobby in front of their Unit), and shall
+not allow litter, dirt, overgrown grass etc. and the Association shall have the right to impose fines and penalties
+                          if the same is not maintained.</p>
+
+            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.02 &nbsp; &nbsp;<b>Common Areas</b></p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Common areas like terrace, basement and lobbies shall not be used for keeping, storing or repairing furniture,
+                          plants, and packages, packing material or other belongings</p>
+             <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.03 &nbsp; &nbsp;<b>Littering</b></p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Littering, such as dropping chocolate wrapper, plastic covers, papers, etc. may attract fines upto INR 5000
+(Rupees Five Thousand only). It shall be the responsibility of the parents to prevent littering by their children
+and in case of littering by children; the parents shall be liable for the fine.</p>
+            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.04 &nbsp; &nbsp;<b>Garbage Disposal</b></p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents are required to place their garbage outside their Unit just before 09:30 a.m everyday for pick up. The
+garbage must be placed in neatly packed bags, separately for Bio-degradable, Non Bio-degradable and
+                          hazardous waste.</p>
+                        <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.05 &nbsp; &nbsp;<b>Noise</b></p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Project is a strictly a NO HORN / NO NOISE zone. Use of vehicle horn or reversing warning horn for any
+reason whatsoever within the premises or even at the Security Gate while entering or leaving to draw the
+attention of the Security Staff, is strictly prohibited. Residents are advised to lodge a complaint with the
+Governing Body not use their horn as it may disturb / wake up other residents. Further, Residents are advised
+to avoid noisy vehicle exhaust / mufflers, loud music in vehicles, loud conversations or talking on the mobile
+                          phone in the common areas or any other manner of behaviour which is likely to case nuisance to others. </p>
+            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.06 &nbsp; &nbsp;<b>Smoking and Spitting</b></p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Project Common Area is a strictly NO SMOKING and NO SPITTING zone and residents are requested to
+ensure strict compliance with the same.  </p>
+            <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">1.07 &nbsp; &nbsp;<b>Visual Pollution</b></p>
+                      <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents are requested to ensure that picket fences and balcony railings are not used for drying clothes and
+                          the community as a whole is maintained in a pleasing and beautiful manner.</p>
+            </div>
+            <!--adding-->
+             <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>2</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Landscaping</th>
+                </tr>
+        </table>
+         <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.01 &nbsp; &nbsp;<b>Maintenance of Gardens</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Residents are required to maintain their gardens in a neat and tidy manner and must not allow them to be
+overgrown. The Residents must mow their lawns and de-weed their gardens - either on their own or by
+entering into contract with the Property Managers. In case the lawn / garden is overgrown / covered with
+weeds, the Property Managers shall send a notice and if no action is taken within one week, the team shall
+clean / mow the area and send across a bill for the same along with a penalty of INR 3000 each time and this
+                    penalty shall be payable to the Association.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.02 &nbsp; &nbsp;<b>Cutting of Trees</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The Residents shall not cut down, chop, layer or otherwise damage any tree within their premises or within the
+Project without permission from the Local Authority as well as the Governing Body.</p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.03 &nbsp; &nbsp;<b>Parks and Greens</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>The complex has parks and green areas which are used by most of the residents and their wards for their walks
+and recreation and the residents are requested to ensure that no one damages or destroys any of the plants,
+green areas and fountains / water bodies etc. in these areas. </p>
+                   <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">2.04 &nbsp; &nbsp;<b>Common Areas</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents are not permitted to plant any trees, flowers, vegetables, herbs etc. in the common areas outside the
+boundary of their own property.
+Residents are required to ensure that their personal gardening elements like pots, planters, vegetable beds,
+fruit or flowering trees or external lights do not block the common areas in the parks, walk-ways, cul-de-sac as
+                    these are community areas and are meant for everyone’s use and access.</p>
+               
+            <!--adding code-->
+            <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                <tr>
+                    <th style='border:2px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;font-family:SansSerif;'>3</th>
+                    <th style='border:2px solid #D3D3D3;background-color:#EEEEEE;text-align: left;font-family:SansSerif;'>Water Usage</th>
+                </tr>
+        </table>
+            <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.01&nbsp; &nbsp;<b>Car Wash</b></p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents are advised not to use hosepipes for car washing but instead to use one bucket of water per car. </p>
+                               
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.02 &nbsp; &nbsp;<b>Leaks</b></p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents are advised to check regularly for water leaks of any manner. External fixtures like the car wash
+tap/outlet typically get old and if not closed well, start leaking and hence proper maintenance and timely
+                    replacements are advised to conserve water. </p>
+                <p style='font-size:10pt;font-family:SansSerif;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">3.03 &nbsp; &nbsp;<b>Water Conservation</b></p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>Residents are advised to follow standard conservation measures such as:</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>i.&nbsp; &nbsp;Not to keep tap running while working up a lather during shave;</p>
+               <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>ii.&nbsp; &nbsp; Not to keep tap running while brushing teeth;</p>
+            <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 2px;margin-top: -5px;'>iii.&nbsp; &nbsp;Not to keep tap running while scrubbing vessels during manual dishwashing.</p>
+              
+            </div> 
+            
+            <div style="page-break-after:always;" ></div>
+             <div>
+                <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                    <tr>
+                        <td style='border:1px solid rgba(0, 0, 0,1);font-family:SansSerif;background-color:#000000;color:white;text-align:center;'>Annexure 06 -<b> PAYMENT INSTRUCTIONS<sup></sup></b><sup></sup><b></b></td>
+                    </tr>
+                </table>
+                <p style="font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:center;margin: 0px;margin-bottom: 0px;">Communication issued by the Promoters</p>
+                <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:1.5; color:#4b4b4b;margin-bottom: 0px;"><br/>                        
+      		  <apex:outputField value="{!phase.Annexure_Payment_Instructions__c}" />    
+        		</div>
+                <p style="font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;margin-top: 3px;"><br/>The consideration amount (excluding pass through amounts specified herein) shall be deposited in the following
+                    Escrow account:</p>
+                
+                
+                <table style='width:100%;border-collapse: collapse;font-size:10pt;' cellpadding='2'>
+                    <colgroup>
+                        <col span="1" style="width: 50%;"/>
+                        <col span="1" style="width: 50%;"/>
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Name of the Escrow Account/ Beneficiary Name</td>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>{!Phase.A_C_Name_Escrow__c}</td>
+                        </tr>
+                        <tr>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Escrow Account No.</td>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>{!Phase.Bank_Account_No_Escrow__c}</td>
+                        </tr>
+                        <tr>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Centre (Location)</td>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Bangalore</td>
+                        </tr>
+                        <tr>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Bank</td>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>{!Phase.Bank_Name_Escrow__c}</td>
+                        </tr>
+                        <tr>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Branch</td>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>{!Phase.Bank_Address_Escrow__c}</td>
+                        </tr>
+                        <tr>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>IFSC Code</td>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>{!Phase.IFSC_Code_Escrow__c}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                
+                <p style="font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;"><br/>All payments relating to pass through amounts being the statutory liabilities such as TDS, GST, Stamp Duty, Registration Charges, shall be deposited in the following account:</p>
+                
+                <table style='width:100%;border-collapse: collapse;font-size:10pt;' cellpadding='2'>
+                    <colgroup>
+                        <col span="1" style="width: 50%;"/>
+                        <col span="1" style="width: 50%;"/>
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Name of the Account/ Beneficiary Name</td>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>{!Phase.A_C_Name_Tax__c}</td>
+                        </tr>
+                        <tr>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Account No.</td>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>{!Phase.Bank_Account_No_Tax__c}</td>
+                        </tr>
+                        <tr>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Centre (Location)</td>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Bangalore</td>
+                        </tr>
+                        <tr>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Bank</td>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>{!Phase.Bank_Name_Tax__c}</td>
+                        </tr>
+                        <tr>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>Branch</td>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>{!Phase.Bank_Address_Tax__c}</td>
+                        </tr>
+                        <tr>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>IFSC Code</td>
+                            <td style='border:1px solid #969595;font-family:SansSerif;color:#4b4b4b;'>{!Phase.IFSC_Code_Tax__c}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <!--apex:outputPanel rendered="{phase.Annexure_Payment_Instructions__c != ''}">
+                <p style="font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;"><br/>During the validity of the aforesaid charge on a Unit, all the cheques/payments towards consideration as well as pass through amounts relating to the Unit shall be drawn only in the name of the aforesaid Account /Beneficiary by the Allottees. Payments made in any other account / in favour of any other beneficiary will be null and void, unless specifically agreed otherwise in writing by Financer and the Promoters.<br/></p>
+                </apex:outputPanel-->
+                <div>
+                    <p style='text-align: center;'>********</p>
+                </div>
+                
+                
+                <p style="font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;"><br/><br/>_______________________________</p>
+                <p style="font-size:10pt;font-family:SansSerif;color:#4b4b4b;padding:2px;text-align:justify;margin: 0px;margin-bottom: 0px;"><sup>1</sup>These
+are the current Payment Instructions for the Project which have been issued by the Promoters to ensure that
+payment by the Allottees as per the Payment Schedule under the AfS is made/credited to the specified bank
+account/s. In case of change of Financer/s for the Project, Promoters shall intimate revised Payment Instructions to
+the Allottees through issuance of letter, which shall automatically form part of this AfS. </p>
+                
+                
+                
+            </div> 
+        </body>
+    </html>
+</apex:component>

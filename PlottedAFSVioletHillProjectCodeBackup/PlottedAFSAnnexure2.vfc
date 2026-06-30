@@ -1,0 +1,865 @@
+<apex:component Controller="PlottedAFSContentTableController" access="global" allowDML="true" >
+    <apex:attribute name="BookId" type="Id" description="Booking Id" access="global" assignTo="{!bId}"/>
+    <html>
+        <head>
+            <style type="text/css" media="print">
+                @page {
+                
+                @top-center {
+                content: element(header);
+                }
+                
+                size:4in 4in;
+                margin:20mm 20mm 60mm 20mm;
+                
+                }
+                body{
+                margin:0;
+                padding:0;
+                font-family: SansSerif;
+                font-size:18px;
+                line-height:1.5;
+                }
+                @page {
+                size: 8.87in 10.0in;
+                margin:12mm;
+                margin-bottom:190px;
+                }
+                
+                table {
+                page-break-inside: auto;
+                }
+                
+                tr{
+                page-break-inside: avoid;
+                page-break-after: auto;
+                }
+                
+                .maintable {
+                border:1px solid #6E6E6E;       
+                border-collapse: collapse;
+                margin:0;
+                
+                }
+                .maintable tr td {
+                
+                border:1px solid #6E6E6E;
+                border-collapse: collapse;
+                }
+                p.a {
+                white-space: nowrap;
+                }
+                
+            </style>   
+        </head>
+        <body>{!projectdetails}
+            
+            <table style='width:100%;border-collapse: collapse;' cellpadding='5'>
+                <tr>
+                    <th style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;background-color:#000000;color:#ffffff;margin-bottom:2px'>Annexure 01-TITLE</th>
+                </tr>
+            </table>
+            <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:normal; margin-top: 0px;margin-bottom: 0px; color:#4b4b4b;">
+                <apex:outputPanel rendered="{!ann.Annexure_Description__c != '' && Unt.Unit_Ownership__c != 'JD'}">
+                    <!-- <div style="page-break-after:always;" ></div>-->
+                    <apex:outputField value="{!ann.Annexure_Description__c}" />
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!ann.Annexure_Description_Landowner__c != '' && Unt.Unit_Ownership__c == 'JD'}">
+                    <apex:outputField value="{!ann.Annexure_Description_Landowner__c}" />
+                </apex:outputPanel>
+                
+            </div>
+            <apex:outputPanel rendered="{!ann.Heading_A_Name__c != ''}">
+                <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                    <tr style="display:{!IF(Unt.Unit_Ownership__c != 'JD' && ann.Heading_A_Name__c != Null,'table-row','none')}">
+                        <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;'>A</th>
+                        <th style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align: left;'>{!ann.Heading_A_Name__c}</th>
+                    </tr>
+                </table>
+                
+                <!--  <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'  >
+<tr>
+<th style='border:1px solid #D3D3D3;background-color:#333;font-size:10pt;color:white;width:30px;text-align:center;'>1</th>
+<th style='border:1px solid #D3D3D3;background-color:#EEEEEE;font-size:10pt;text-align: left;'>{!ann.Sub_Heading_1__c}</th>
+</tr>
+</table> -->
+                <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:normal; margin-top: 0px;margin-bottom: 0px; color:#4b4b4b;">
+                    
+                    <!-- <div style="page-break-after:always;" ></div>-->
+                    
+                    <apex:outputField rendered="{!Unt.Unit_Ownership__c != 'JD'}" value="{!ann.Heading_A__c}" />  
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!ann.Heading_A_Name_Landowner__c != ''}">
+                <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                    <tr style="display:{!IF(Unt.Unit_Ownership__c == 'JD' && ann.Heading_A_Name_Landowner__c != Null,'table-row','none')}">
+                        <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;'>A</th>
+                        <th style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align: left;'>{!ann.Heading_A_Name_Landowner__c}</th>
+                    </tr>
+                </table>
+                
+                <!--  <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'  >
+<tr>
+<th style='border:1px solid #D3D3D3;background-color:#333;font-size:10pt;color:white;width:30px;text-align:center;'>1</th>
+<th style='border:1px solid #D3D3D3;background-color:#EEEEEE;font-size:10pt;text-align: left;'>{!ann.Sub_Heading_1__c}</th>
+</tr>
+</table> -->
+                <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:normal; margin-top: 0px;margin-bottom: 0px; color:#4b4b4b;">
+                    
+                    <!-- <div style="page-break-after:always;" ></div>-->
+                    
+                    <apex:outputField rendered="{!Unt.Unit_Ownership__c == 'JD'}" value="{!ann.Heading_A_Description_Landowner__c}" />
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!ann.Heading_B_Name__c != ''}">
+                <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                    <tr style="display:{!IF(Unt.Unit_Ownership__c != 'JD' && ann.Heading_B_Name__c != Null,'table-row','none')}">
+                        <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;'>B</th>
+                        <th style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align: left;'>{!ann.Heading_B_Name__c}</th>
+                    </tr>
+                </table>
+                <br/>
+                
+                <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:normal; margin-top: 0px;margin-bottom: 0px; color:#4b4b4b;">
+                    
+                    <!-- <div style="page-break-after:always;" ></div>-->
+                    
+                    <apex:outputField rendered="{!Unt.Unit_Ownership__c != 'JD'}" value="{!ann.Heading_B__c}" />   
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!ann.Heading_B_Name_Landowner__c != ''}">
+                <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                    <tr style="display:{!IF(Unt.Unit_Ownership__c == 'JD' && ann.Heading_B_Name_Landowner__c != Null,'table-row','none')}">
+                        <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;'>B</th>
+                        <th style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align: left;'>{!ann.Heading_B_Name_Landowner__c}</th>
+                    </tr>
+                </table>
+                <br/>
+                
+                <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:normal; margin-top: 0px;margin-bottom: 0px; color:#4b4b4b;">
+                    
+                    <!-- <div style="page-break-after:always;" ></div>-->
+                    
+                    <apex:outputField rendered="{!Unt.Unit_Ownership__c == 'JD'}" value="{!ann.Heading_B_Description_Landowner__c}" />  
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!ann.Heading_C_Name__c != ''}">
+                <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                    <tr style="display:{!IF(Unt.Unit_Ownership__c != 'JD' && ann.Heading_C_Name__c != Null,'table-row','none')}">
+                        <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;'>C</th>
+                        <th style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align: left;'>{!ann.Heading_C_Name__c}</th>
+                    </tr>
+                </table>
+                <br/>
+                <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:normal; margin-top: 0px;margin-bottom: 0px; color:#4b4b4b;">
+                    
+                    <!-- <div style="page-break-after:always;" ></div>-->
+                    
+                    <apex:outputField rendered="{!Unt.Unit_Ownership__c != 'JD'}" value="{!ann.Heading_C__c}" />    
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!ann.Heading_C_Name_Landowner__c != ''}">
+                <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                    <tr style="display:{!IF(Unt.Unit_Ownership__c == 'JD' && ann.Heading_C_Name_Landowner__c != Null,'table-row','none')}">
+                        <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;'>C</th>
+                        <th style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align: left;'>{!ann.Heading_C_Name_Landowner__c}</th>
+                    </tr>
+                </table>
+                <br/>
+                <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:normal; margin-top: 0px;margin-bottom: 0px; color:#4b4b4b;">
+                    
+                    <!-- <div style="page-break-after:always;" ></div>-->
+                    
+                    <apex:outputField rendered="{!Unt.Unit_Ownership__c == 'JD'}" value="{!ann.Heading_C_Description_Landowner__c}" />
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!ann.Heading_D_Name__c != ''}">
+                <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                    <tr style="display:{!IF(Unt.Unit_Ownership__c != 'JD' && ann.Heading_D_Name__c != Null,'table-row','none')}">
+                        <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;'>D</th>
+                        <th style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align: left;'>{!ann.Heading_D_Name__c}</th>
+                    </tr>
+                </table>
+                <br/>
+                <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:normal; margin-top: 0px;margin-bottom: 0px; color:#4b4b4b;">
+                    
+                    <!-- <div style="page-break-after:always;" ></div>-->
+                    <apex:outputField rendered="{!Unt.Unit_Ownership__c != 'JD'}" value="{!ann.Heading_D__c}" /> 
+                    
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!ann.Heading_D_Name_Landowner__c != ''}">
+                <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                    <tr style="display:{!IF(Unt.Unit_Ownership__c == 'JD' && ann.Heading_D_Name_Landowner__c != Null,'table-row','none')}">
+                        <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;'>D</th>
+                        <th style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align: left;'>{!ann.Heading_D_Name_Landowner__c}</th>
+                    </tr>
+                </table>
+                <br/>
+                <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:normal; margin-top: 0px;margin-bottom: 0px; color:#4b4b4b;">
+                    
+                    <!-- <div style="page-break-after:always;" ></div>-->
+                    <apex:outputField rendered="{!Unt.Unit_Ownership__c == 'JD'}" value="{!ann.Heading_D_Description_Landowner__c}" />
+                    
+                    
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!ann.Heading_E_Name__c != ''}">
+                <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                    <tr  style="display:{!IF(Unt.Unit_Ownership__c != 'JD' && ann.Heading_E_Name__c != Null,'table-row','none')}">
+                        <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;'>E</th>
+                        <th style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align: left;'>{!ann.Heading_E_Name__c}</th>
+                    </tr>
+                </table>
+                <br/>
+                <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:normal; margin-top: 0px;margin-bottom: 0px; color:#4b4b4b;">
+                    
+                    <!-- <div style="page-break-after:always;" ></div>-->
+                    <apex:outputField rendered="{!Unt.Unit_Ownership__c != 'JD'}"  value="{!ann.Heading_E_Description__c}" /> 
+                    
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!ann.Heading_E_Name_Landowner__c != ''}">
+                <table style='width: 100%;border-collapse: collapse;margin-top:5px;' cellpadding='5'>
+                    <tr  style="display:{!IF(Unt.Unit_Ownership__c == 'JD' && ann.Heading_E_Name_Landowner__c != Null ,'table-row','none')}">
+                        <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;'>E</th>
+                        <th style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align: left;'>{!ann.Heading_E_Name_Landowner__c}</th>
+                    </tr>
+                </table>
+                <br/>
+                <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:normal; margin-top: 0px;margin-bottom: 0px; color:#4b4b4b;">
+                    
+                    <!-- <div style="page-break-after:always;" ></div>-->
+                    <apex:outputField rendered="{!Unt.Unit_Ownership__c == 'JD'}"  value="{!ann.Heading_E_Description_Landowner__c}" /> 
+                    
+                    
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!ann.Heading_F_Name__c != ''}">
+                <table style='width: 100%;border-collapse: collapse;margin-top:-15px;' cellpadding='5'>
+                    <tr>
+                        <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;'>F</th>
+                        <th style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align: left;'>{!ann.Heading_F_Name__c}</th>
+                    </tr>
+                </table>
+                <br/>
+                <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:normal; margin-top: 0px;margin-bottom: 0px; color:#4b4b4b;">
+                    
+                    <!-- <div style="page-break-after:always;" ></div>-->
+                    <apex:outputField rendered="{!Unt.Unit_Ownership__c != 'JD'}"  value="{!ann.Heading_F_Description__c}" />
+                    <div style='page-break-after: always;'></div>
+                    
+                    
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!ann.Heading_F_Name_Landowner__c != ''}">
+                <table style='width: 100%;border-collapse: collapse;margin-top:-15px;' cellpadding='5'>
+                    <tr>
+                        <th style='border:1px solid #D3D3D3;background-color:#333;color:white;width:30px;text-align:center;'>F</th>
+                        <th style='border:1px solid #D3D3D3;background-color:#EEEEEE;text-align: left;'>{!ann.Heading_F_Name_Landowner__c}</th>
+                    </tr>
+                </table>
+                <br/>
+                <div  style="text-align: justify;text-justify: inter-word;font-family:SansSerif;font-size:10pt; line-height:normal; margin-top: 0px;margin-bottom: 0px; color:#4b4b4b;">
+                    
+                    <!-- <div style="page-break-after:always;" ></div>-->
+                    <apex:outputField rendered="{!Unt.Unit_Ownership__c == 'JD'}"  value="{!ann.Heading_F_Description_Landowner__c}" /> 
+                    <div style='page-break-after: always;'></div>
+                    
+                    
+                </div>
+            </apex:outputPanel>
+            <!--    <div style='page-break-after: always;'></div> -->
+            <!---------------------------------------------------------------------------------------------------->      
+            <apex:outputPanel rendered="{!IF((prj.State__c == 'Maharashtra'),true,false)}"> 
+                <!--   <div style="{!IF((prj.Name == 'Songs From The Wood'),'display:block','display:none')}"> -->
+                <c:AFSPuneProject bookingId="{!bk.id}" />
+                <!--   </div> -->
+            </apex:outputPanel> 
+            <!------------------------------------------------------------------------------------------------------>       
+            
+            
+            <div style='page-break-before: always;'>    
+                <table style='width:100%;border-collapse: collapse;' cellpadding='7'>
+                    <tr>
+                        <th style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;background-color:#000000;color:#ffffff;margin-bottom:2px'>Annexure 02 - Approvals</th>
+                    </tr>
+                </table>
+                <div>
+                    <p style='font-size:10pt;text-align:justify;margin-bottom:0px;margin-top:2px'>The list of approvals for the Project are as follows:</p>
+                    <table style='width:100%;border-collapse: collapse;font-size:10pt;margin-top:0px' cellpadding='2'>
+                        <tbody>
+                            <tr style="color:Black;">
+                                <th style='border:1px solid #d3d3d3;font-family:SansSerif;'>S.no.</th>
+                                <th style='border:1px solid #d3d3d3;font-family:SansSerif;'>Approval</th>
+                                <th style='border:1px solid #d3d3d3;font-family:SansSerif;'>Authority</th>
+                                <th style='border:1px solid #d3d3d3;font-family:SansSerif;'>Approval no.</th>
+                                <th style='border:1px solid #d3d3d3;font-family:SansSerif;'>Date</th>
+                            </tr>
+                            <apex:repeat value="{!approval}" var="appro" rendered="{!ISNULL(approval) == false && approval.size > 0}">
+                                <tr style="color:#4b4b4b;">
+                                    <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>{!appro.Sr_No__c}</td>
+                                    <td style='border:1px solid #d3d3d3;font-family:SansSerif;'>{!appro.Name}</td>
+                                    <td style='border:1px solid #d3d3d3;font-family:SansSerif;'>{!appro.Authority__c}</td>
+                                    <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>{!appro.Approval_No__c}</td>
+                                    <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' ><apex:outputText value="{0, date, dd-MM-yyyy}"> <apex:param value="{!appro.Date__c}" /> </apex:outputText></td>
+                                </tr>
+                            </apex:repeat>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div style='page-break-before: always;'>    </div>
+            
+            <table style='width:100%;border-collapse: collapse;' cellpadding='7'>
+                <tr>
+                    <th style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;background-color:#000000;color:#ffffff;margin-bottom:8px'>Annexure-03 | Terms &amp; Conditions for Building Design &amp; Construction</th>
+                </tr>
+            </table>
+            <div>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;text-align:justify;margin: 0px;margin-bottom:5px'>The Allottees have clearly understood that they are purchasing a unit in a community that has been specially designed for the Promoters, by the Architects appointed by the Promoters, in line with the UNIQUE brand promise from the Promoters.</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;text-align:justify;margin: 0px;margin-bottom:5px'>The Allottees hereby clearly accept all the Terms and Conditions provided below, for the design and construction of anything on their Unit – including building, structure, boundary wall, landscaping, lighting etc.</p>
+                <p style='font-size:10pt;font-family:SansSerif;color:#4b4b4b;text-align:justify;margin: 0px;margin-bottom:5px'>These terms and conditions have been meticulously designed to preserve the essence of the Master Development as a rich, vibrant, and people-centred space through careful consideration of various factors, including the Design Principles. These conditions, where more stringent than the local laws, shall prevail over such laws. Adherence to these Terms and Conditions is mandatory and the Allottees hereby clearly accept and confirm the acceptance all the Terms and Conditions provided here.</p>
+                
+                <p style='font-size:15pt;text-align:center;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle"><b>Building Codes </b></p>
+                
+                <table style='width:100%;border-collapse: collapse;font-size:9pt;margin-top:0px'>
+                    <tr >
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'><b>Width</b></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'><b>Depth</b></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'><b>Area</b></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' colspan="4"><b>Setback</b></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'><b>FAR</b></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'><b>Built Area</b></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' colspan="2"><b>Footprint</b></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'><b>Width</b></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'><b>Depth</b></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'><b>Area</b></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' colspan="4"><b>Setback</b></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'><b>FAR</b></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'><b>Built Area</b></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' colspan="2"><b>Footprint</b></td>
+                    </tr>
+                    <tr >
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>Front</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>Rear</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>Left</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>Right</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>Front</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>Rear</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>Left</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>Right</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'></td>
+                    </tr>
+                    <tr >
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' colspan="11">[FPS]</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' colspan="11">[Metric]</td>
+                    </tr>
+                    <tr style="color:#4b4b4b;">
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>30</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>60</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1,800</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>8'3"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3'4"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3'4"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2,700</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>900</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>9.144</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>18.288</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>167.2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>251</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>84</td>
+                    </tr>
+                    <tr style="color:#4b4b4b;">
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>35</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>60</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2,100</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>8'3"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3'4"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3'4"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3,150</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1,050</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>10.668</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>18.288</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>195.1</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>293</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>98</td>
+                    </tr>
+                    <tr style="color:#4b4b4b;">
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>40</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>60</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2,400</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>8'3"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>5'0"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3,600</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1,200</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>12.192</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>18.288</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>223.0</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>334</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>111</td>
+                    </tr>
+                    <tr style="color:#4b4b4b;">
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>40</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>80</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3,200</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>11'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>9'10"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>5'0"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>4,800</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1,600</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>12.192</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>24.384</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>297.3</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>446</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>149</td>
+                    </tr>
+                    <tr style="color:#4b4b4b;">
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>45</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>60</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2,700</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>8'3"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>5'0"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>4,050</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1,350</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>13.716</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>18.288</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>250.8</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>376</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>125</td>
+                    </tr>
+                    <tr style="color:#4b4b4b;">
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>45</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>80</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3,600</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>11'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>9'10"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>5'0"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>5,400</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1,800</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>13.716</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>24.384</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>334.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>502</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>167</td>
+                    </tr>
+                    <tr style="color:#4b4b4b;">
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>60</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3,000</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>8'3"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>5'0"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>4,500</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1,500</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>15.24</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>18.288</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>278.7</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>418</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>139</td>
+                    </tr>
+                    <tr style="color:#4b4b4b;">
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>80</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>4000</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>11'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>9'10"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>5'0"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6,000</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2,000</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>15.24</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>24.384</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>371.6</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>557</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>186</td>
+                    </tr>
+                    <tr style="color:#4b4b4b;">
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>100</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>5000</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>11'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>9'10"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>5'0"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>7,500</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2,500</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>15.24</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>30.38</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>464.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>697</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>232</td>
+                    </tr>
+                    <tr style="color:#4b4b4b;">
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>60</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>80</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>4,800</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>11'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>9'10"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>9'10"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>7,200</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2,400</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>18.288</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>24.384</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>445.9</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>669</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>223</td>
+                    </tr>
+                    <tr style="color:#4b4b4b;">
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>60</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>120</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>7,200</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>11'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>9'10"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>6'6"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>9'10"</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>10,800</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3,600</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>18.288</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>36.576</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>668.9</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3.5</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>2</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>3</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1.50</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>1,003</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>50%</td>
+                        <td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: right;'>334</td>
+                    </tr>
+                </table>
+                
+                <!--
+<table style='width:100%;border-collapse: collapse;font-size:10pt;margin-top:0px' cellpadding='2'>
+<tbody>
+<tr style="color:Black;">
+<th style='border:1px solid #d3d3d3;font-family:SansSerif;'> &nbsp;&nbsp;</th>
+<th style='border:1px solid #d3d3d3;font-family:SansSerif;' colspan="2"><u>Plot Dimensions</u></th>
+<th style='border:1px solid #d3d3d3;font-family:SansSerif;'><u>Plot Area</u></th>
+<th style='border:1px solid #d3d3d3;font-family:SansSerif;' colspan="4"><u>Plot Setback (in mts)</u></th>
+<th style='border:1px solid #d3d3d3;font-family:SansSerif;'><u>FAR</u> </th>
+<th style='border:1px solid #d3d3d3;font-family:SansSerif;'><u>Max.Building Height * </u></th>
+
+</tr>
+
+<tr style="color:#4b4b4b;">
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>&nbsp;&nbsp;</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>in feet</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;'>in metres</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;'>in sqm.</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>Front(A)</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >Rear(B)</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >SideGate(C)</td>
+
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >Side(D)</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' ></td>
+
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >in mts</td>
+
+</tr>
+<tr style="color:#4b4b4b;">
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>1.</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>30 x 60</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;'>9.14 x 18.29</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;'>167.23</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>2.50</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >2.00</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >1.00</td>
+
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >1.00</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >1.75</td>
+
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >10.0</td>
+
+</tr>
+<tr style="color:#4b4b4b;">
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>2.</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>40 x 60</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;'>12.19 x 18.29 </td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;'>222.97</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>2.50</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >2.00</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >1.50</td>
+
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >2.00</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >1.75</td>
+
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >10.0</td>
+
+</tr>
+<tr style="color:#4b4b4b;">
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>3.</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>40 x 80</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;'>12.19 x 24.39 </td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;'>297.29</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>3.50</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >3.00</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >1.50</td>
+
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >2.00</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >2.00</td>
+
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >10.0</td>
+
+</tr>
+<tr style="color:#4b4b4b;">
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>4.</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>50 x100</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;'>15.24 x 30.48</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;'>464.52</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;'>3.50</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >3.00</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >1.50</td>
+
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >2.00</td>
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >2.00</td>
+
+<td style='border:1px solid #d3d3d3;font-family:SansSerif;text-align: center;' >10.0</td>
+
+</tr>
+
+</tbody>
+</table> -->
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top: 7px;margin-bottom: 0px;' class="SuHeadStyle">1.&nbsp;&nbsp;<b>Setbacks, Footprint &amp; FSI</b></p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">a.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">The clear setback to be left free of any construction from the Front, Rear, Left and Right boundaries shall be as defined in the chart above under “Setback”.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">b.</p>  
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">Left and Right setbacks here refer to the left side and right side respectively when standing inside the plot and facing the road.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">c.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">In the case of corner plots, both the sides facing the road shall be treated as front and the setbacks applied accordingly to maintain the building line along the roads and to provide better visibility.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">d.</p>    
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">The maximum area of the footprint [plinth] of all structures to be built in the Unit, cannot exceed 50% of the area of the Unit as mentioned above under “Footprint”.</p>    
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">e.</p>    
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">The total built up area of all structures built on the unit cannot exceed and FAR of 1.5, i.e. not more than 1.5 times the area of the Unit as provided in the chart above under “Built Area”</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top: 7px;margin-bottom: 0px;' class="SuHeadStyle">2.&nbsp;&nbsp;<b>Car Garage</b></p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">The setbacks shall apply to any enclosed car garages and no enclosed car garages shall be permitted within the Unit without providing the prescribed setback along any of the boundaries. However, all vehicles belonging to the Allottees MUST be parked within the Unit only, and no vehicles shall be permitted to be parked on the roads or pavements or any other part of the Master Development.</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top: 7px;margin-bottom: 0px;' class="SuHeadStyle">3.&nbsp;&nbsp;<b>Height</b></p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">a.</p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">The maximum height of any structure built on the unit, excluding water tanks, staircase headroom etc. shall not exceed <b>31</b> feet  [<b>9.45</b> metres] from the centre of the road in front of the plot.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">b.</p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">The maximum height of any boundary wall on any side of the Unit, shall not exceed <b>8</b> feet [<b>2.45</b>m]</p>    
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top: 7px;margin-bottom: 0px;' class="SuHeadStyle">4.&nbsp;&nbsp;<b>Rainwater Harvesting</b></p> 
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">Rainwater harvesting is compulsory for all Units and all rainwater falling on the terrace or on any paved or unpaved surface must be recharged into the ground within the building site.</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top: 7px;margin-bottom: 0px;' class="SuHeadStyle">5.&nbsp;&nbsp;<b>External Façade</b></p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">a.</p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">All materials used for the exterior façade of the building must be natural materials only – such as stone, brick, wood, oxidized steel, copper, zinc etc. or in form finished concrete. No plaster or paint to be used on the outside.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">b.</p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">A maximum of 5% of the external walls shall be permitted to be plastered for areas such as shafts and all such walls must be painted in either white or grey paint.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">c.</p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">All Windows and French Windows must be in wood or aluminium and with clear glass only. PVC or steel windows are NOT permitted, and any tinted, coloured or reflective glass shall NOT be permitted except for stained glass panels as per design.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">d.</p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">No plumbing down-take pipes to be visible from the street.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">e.</p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">No signage, billboard or solar panels shall be installed which are visible from the streets or neighbouring units.</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top: 7px;margin-bottom: 0px;' class="SuHeadStyle">6.&nbsp;&nbsp;<b>Number of Units</b></p>    
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">A maximum of 2 [Two] dwelling units shall be permitted on one Unit. Number of dwelling units shall be defined based on the number of kitchens.</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top: 7px;margin-bottom: 0px;' class="SuHeadStyle">7.&nbsp;&nbsp;<b>Entry</b></p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">a.</p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">The entry to the Unit, the driveway and the access road for the Unit shall be as demarcated in Plan 01 in the Special Terms of Sale and shall not be altered. Further, no second entry points are permitted.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">b.</p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">The boundary wall and gate, including the position of the gate cannot be changed.</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top: 7px;margin-bottom: 0px;' class="SuHeadStyle">8.&nbsp;&nbsp;<b>Trees</b></p>    
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">No trees shall be cut without written approval from Promoters.</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top: 7px;margin-bottom: 0px;' class="SuHeadStyle">9.&nbsp;&nbsp;<b>Type of Construction</b></p>    
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">Only residential structures shall be constructed on the Residential Units and used for residential purposes only. Commercial structures shall be constructed on the Commercial Units.</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top: 7px;margin-bottom: 0px;' class="SuHeadStyle">10.&nbsp;&nbsp;<b>Empanelment of Architects &amp; Contractors.</b></p>    
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">Any Architect or Contractor working on the design or construction of the structures to be built on the Unit, must be approved and empanelled with the Promoters before they are permitted to take up any work.</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top: 7px;margin-bottom: 0px;' class="SuHeadStyle">11.&nbsp;&nbsp;<b>Construction</b></p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">a.&nbsp;&nbsp;<b>Undertaking + Security Deposit</b></p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">Before the start of construction, the Allottees shall be required to sign a Letter of Undertaking as per the format provide in Format-01 below, and pay a Refundable Security Deposit of INR 5,00,000 [Rupees Five Lakhs only] to the Promoters as per the provisions in Format-01</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">b.&nbsp;&nbsp;<b>Construction Timings</b></p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">Construction timings shall be restricted to 8:00 am to 6:00 pm only on Weekdays. No construction shall be permitted on Saturdays, Sundays and National Holidays</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">c.</p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">No materials shall be allowed to be stored outside the individual Units – all materials must be stored within the Unit.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">d.</p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">No wells or borewells shall be permitted to be dug / sunk within the Unit.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">e.</p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">The EHS [Environment, Health &amp; Safety] Policy as well as the Housekeeping Policy as prescribed by the Promoters from time to time, must be adhered to always.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;' class="SuHeadStyle">f.</p>     
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">If construction on the plot is finished within 5 years, the Promoters will erect a 4 feet high boundary wall along the road-facing boundary in exposed wire-cut brick masonry, accompanied by a steel gate for the plot. The design for these will be finalized by the Promoter's Architects to ensure a cohesive aesthetic throughout the Project.</p>
+                
+                <table style='height:99%;width: 99%;margin-left: auto;margin-right: auto;' cellpadding='7'>
+                    <tr>
+                        <td style='vertical-align:middle;'>
+                            <div style='background: #7f7f7f;line-height:50px;color: #FFFFFF;text-align:center;font-size:20px;border:1px solid #7f7f7f;margin-top: 10px;font-family:SansSerif;' ><b>Format 01 – LETTER OF UNDERTAKING</b></div>
+                        </td>  
+                    </tr>
+                </table>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:7px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">From</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle"><b>Name(s) [Owners]</b></p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">Current Address</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:7px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">To</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">M/s <b>{!prj.Promoter__r.Name}&nbsp;[Promoters]</b></p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">{!promo.Registered_office__c}</p>     
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:7px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">Subject: Construction of Residence at Plot no.</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:7px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">I intend to construct my home <b>[Home]</b> at plot no._______ {!prj.Name} [<b>{!prj.Project_Short_Code__c}</b>], as per the Terms &amp; Conditions for Building Design &amp; Construction prescribed by the Promoters.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:7px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">I am hereby furnishing the following details of my proposed Home for your reference &amp; verification:</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:7px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">1.&nbsp;&nbsp;Plot area:</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">2.&nbsp;&nbsp;Proposed date of start of construction:</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">3.&nbsp;&nbsp;Estimated completion date for the construction of my Home:</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">4.&nbsp;&nbsp;Architect [Name, Registration no., phone no. &amp; address of Architect]</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">5.&nbsp;&nbsp;Contractor [Name, Registration no., phone no. &amp; address of Contractor]</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">6.&nbsp;&nbsp;Sanctioned Plan License No.</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:7px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">I hereby undertake to strictly adhere to the Terms &amp; Conditions as stipulated by the Promoters during the entire duration of construction of my Home. I take complete responsibility for any damage that the construction of my Home may cause, either directly or indirectly, to the common infrastructure of {!prj.Project_Short_Code__c} or to my neighbouring properties or any other property within {!prj.Project_Short_Code__c}, and I shall have all such damage rectified at my own cost. I confirm that if I change my Architect or Contractor for my Home, I shall secure approval for the same from the Promoters before doing so.</p>    
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">If there are any violations to the Terms &amp; Conditions, including but not limited to, the setbacks, building footprint, building height, use of approved materials, I hereby permit the Promoters or the Homeowners Association <b>[HoA]</b> to stop the construction of my Home until such violation has been rectified.</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:7px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">During the construction of my Home, I confirm and undertake that, I shall ensure that my Contractor shall strictly adhere to the following:</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:7px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">1.&nbsp;&nbsp;Construct a temporary shelter with toilet on the construction site, as well as install neat GI barricading sheets in either dark green or terracotta colour, along the boundary of the plot, before starting the construction of the Home, to prevent any damage or disturbance to the neighbourhood from falling materials or flying particles and dust etc.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">2.&nbsp;&nbsp;Ensure that the drains in front of their site are not blocked with construction material or debris.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">3.&nbsp;&nbsp;Ensure that construction materials are not dumped on the road. Undertake to repair the damaged roads, storm water drains, fencing, plants etc. or reimburse the cost of repair to the Promoters or HoA.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">4.&nbsp;&nbsp;Take full responsibility for the security of construction materials and tools &amp; equipment that may be delivered to the site. The Promoters or the HoA shall not be liable for any loss/damage and or theft of the said material.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">5.&nbsp;&nbsp;Make own arrangement for water supply and power supply for the construction of the Home.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">6.&nbsp;&nbsp;Keep a security guard on site at all times to ensure security of the construction material.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">7.&nbsp;&nbsp;Other than the security guard and his immediate family, no other workers shall be permitted to reside in the plot or in {!prj.Project_Short_Code__c} under any circumstances.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">8.&nbsp;&nbsp;Ensure that the workers employed for the construction of the Home shall not use any of the vacant plots for bathing/toilet purposes. In the event this rule is violated, a fine of INR 5000 [Rupees Five Thousand only] shall be levied for each such occurrence or such other amount as may be fixed by the HoA from time to time. In the event this rule is violated on more than 3 occasions for a given construction, the Contractor shall be delisted from the approved panel of contractors and shall not be allowed entry into {!prj.Project_Short_Code__c} for any further construction work.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">9.&nbsp;&nbsp;All workers shall enter and exit the layout though the main gate only or any other gate designated by the Promoters or HoA and the Contractor shall ensure that the entry and exit of all workers is recorded by the security personnel at the main gate of {!prj.Project_Short_Code__c}. Jumping over compound walls by the workers is strictly prohibited and appropriate fines will be levied on the Contractor.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">10.&nbsp;&nbsp;Ensure that the work timings of 8:00 AM to 6:00 PM are strictly observed from Monday to Friday to avoid disturbance to the neighbourhood. In case of emergency work like concreting, special permission shall be secured from the Promoters or HoA for extended work time as an exception.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">11.&nbsp;&nbsp;Any &amp; all light, medium &amp; heavy-duty vehicles carrying any type of construction or related materials shall be permitted to enter {!prj.Project_Short_Code__c} only between 8:30 am &amp; 4:30 pm from Monday to Friday and must leave the premises, after unloading of all materials before 5:30 pm on the same day. No vehicle shall be allowed to be remain parked inside the {!prj.Project_Short_Code__c} premises after 5:30 pm without prior written permission from the Promoters or HoA or in accordance with the security &amp; safety regulations of the HoA. Any vehicles requesting entry after 4:30 pm will not allowed to enter the {!prj.Project_Short_Code__c} premises until 8:30 am on the next working day unless they have prior written permission from the Promoters or HoA.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">12.&nbsp;&nbsp;The Contractor and their workers shall not use any of the facilities and amenities provided for the {!prj.Project_Short_Code__c} owners, such as parks, play areas, landscape areas, club facilities etc., and also should not pluck any flowers, vegetables or fruits from the plots or from any part of the {!prj.Project_Short_Code__c} premises. The Contractor’s personnel shall not urinate, night soil, bathe or wash etc., in the {!prj.Project_Short_Code__c} premises.</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:7px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">I enclose herewith a Demand Draft no ________________ dated ________________ drawn in favour of M/s. {!prj.Name} Properties for sum of INR 5,00,000 [Rupees Five Lakhs Only] as a security deposit which will be refunded upon completion of construction of the Project in all aspects, without any interest, after deductions of damages, if any, to Roads, Storm Water drains, fencing &amp; fence plants, neighbour’s property(s) and any other assets and upon receipt of our letter in this regard.</p>
+                <br/>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:7px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">Signature</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle"><b>[Name of Owner(s)]</b></p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:12px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">Enclosed:</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:7px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">1.&nbsp;&nbsp;DD for Security Deposit</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">2.&nbsp;&nbsp;No Dues Certificate [towards Maintenance and any other dues to the Home Owners Association]</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">3.&nbsp;&nbsp;Copy of Sanctioned Plans and all other required approvals from the appropriate authorities.</p>
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin: 0px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">4.&nbsp;&nbsp;Copies of Architectural, Structural and MEP Drawings for the Project</p>
+                
+                <p style='font-size:10pt;text-align:justify;font-family:SansSerif;margin-top:7px;margin-bottom: 0px;color:#4b4b4b' class="SuHeadStyle">_________________________________________________________________________________________________________________________-</p>    
+                
+                
+                
+                
+                
+                
+                
+            </div>
+        </body>
+    </html>
+</apex:component>
